@@ -1,58 +1,89 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚀 SIGAP — Sistem Informasi Gangguan & Antrean Pelayanan
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+[![Status](https://img.shields.io/badge/status-active-success.svg)]()
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)]()
 
-## About Laravel
+SIGAP adalah sistem *helpdesk* generik yang mendukung pelaporan publik (guest) maupun internal (multi-role: admin, agent, user)[cite: 2]. Sistem ini dirancang untuk memproses keluhan secara transparan, dilengkapi dengan *audit trail* yang *immutable* dan pelacakan SLA (*Service Level Agreement*)[cite: 2].
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## ✨ Fitur Utama
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+*   **Multi-Role Dashboard**: Menyediakan ruang kerja yang terisolasi dan spesifik untuk peran *Admin*, *Agent*, dan *User*[cite: 2].
+*   **Guest Ticketing**: Portal pelaporan bagi masyarakat umum tanpa perlu membuat akun, yang dilindungi oleh *rate limiting* untuk mencegah *spam bot*[cite: 2].
+*   **Siklus Tiket & Evidence Logic**: Memiliki validasi ketat yang menolak penyelesaian tiket (*status resolved*) jika *agent* tidak menyertakan file bukti (*evidence*) penanganan[cite: 2].
+*   **Immutable Audit Log**: Semua riwayat perubahan tiket dan log aktivitas tidak dapat diubah atau dihapus, dilindungi langsung di level *database* menggunakan *trigger*[cite: 2].
+*   **Antrean Prioritas Cerdas**: *Agent* mendapatkan antrean tiket yang diurutkan secara otomatis berdasarkan prioritas tertinggi (Tinggi, Sedang, Rendah) dan sisa waktu SLA yang paling dekat[cite: 2].
+*   **Laporan & Analitik**: Panel khusus Admin untuk melihat matriks kinerja, kepatuhan SLA per departemen, dan kemampuan *export* data ke dalam bentuk Excel (.xlsx)[cite: 2].
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🛠️ Tech Stack
 
-## Learning Laravel
+*   **Framework**: Laravel 13[cite: 2]
+*   **Backend / Logic**: PHP 8.3[cite: 2]
+*   **Database**: PostgreSQL[cite: 2]
+*   **Frontend / UI**: Laravel Breeze (Blade)[cite: 2]
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## ⚙️ Persyaratan (Prerequisites)
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Pastikan sistem Anda sudah memiliki perangkat lunak berikut sebelum memulai:
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+*   PHP 8.3
+*   PostgreSQL
+*   Composer
+*   Node.js & NPM
 
-## Agentic Development
+## 🚀 Instalasi & Konfigurasi
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+Ikuti langkah-langkah di bawah ini untuk mengonfigurasi dan menjalankan *project* SIGAP secara lokal:
 
-```bash
-composer require laravel/boost --dev
+1.  **Clone repositori ini:**
+    ```bash
+    git clone [https://github.com/Rakha-24/Sigap.git](https://github.com/Rakha-24/Sigap.git)
+    cd Sigap
+    ```
+2.  **Install Dependency:**
+    ```bash
+    composer install
+    npm install
+    npm run build
+    ```
+3.  **Konfigurasi Environment:**
+    *   Salin file `.env.example` menjadi `.env`.
+    *   Buka file `.env` dan sesuaikan koneksi ke PostgreSQL Anda:
+        ```env
+        DB_CONNECTION=pgsql
+        DB_HOST=127.0.0.1
+        DB_PORT=5432
+        DB_DATABASE=nama_database_sigap
+        DB_USERNAME=username_postgres
+        DB_PASSWORD=password_postgres
+        ```
+4.  **Generate Application Key:**
+    ```bash
+    php artisan key:generate
+    ```
+5.  **Migrasi & Seeding Database:**
+    Sistem SIGAP membutuhkan urutan migrasi khusus (seperti pembuatan tipe ENUM *native* PostgreSQL) dan *Master Data*. Jalankan perintah berikut untuk mengeksekusinya sekaligus:
+    ```bash
+    php artisan migrate:fresh --seed
+    ```
+    *(Proses ini akan mengonfigurasi database sekaligus memasukkan data referensi departemen, kategori, dan akun pengguna awal)*[cite: 2].
+6.  **Jalankan aplikasi:**
+    ```bash
+    php artisan serve
+    ```
+    Buka `http://localhost:8000` di *browser* Anda.
 
-php artisan boost:install
-```
+## 👥 Akun Default (Testing)
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Proses *seeding* di atas telah menyiapkan beberapa akun untuk keperluan *testing*[cite: 2]:
 
-## Contributing
+*   **Admin**: `admin@sigap.test` (Sandi: `password`)[cite: 2]
+*   **Agent (IT Support)**: `agent@sigap.test` (Sandi: `password`)[cite: 2]
+*   **User Umum**: `user@sigap.test` (Sandi: `password`)[cite: 2]
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🤝 Kontribusi
 
-## Code of Conduct
+Kontribusi selalu diterima! Jika Anda ingin berkontribusi, silakan *fork* repositori ini dan buat *pull request* dengan tambahan fitur atau perbaikan Anda.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 📄 Lisensi
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Project ini dilisensikan di bawah [MIT License](LICENSE).
