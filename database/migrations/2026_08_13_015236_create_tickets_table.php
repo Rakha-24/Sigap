@@ -42,32 +42,50 @@ return new class extends Migration
             $table->index('nomor_tiket');
         });
 
-        DB::statement("ALTER TABLE tickets ADD COLUMN prioritas ticket_priority NOT NULL DEFAULT 'sedang'");
-        DB::statement("ALTER TABLE tickets ADD COLUMN status ticket_status NOT NULL DEFAULT 'open'");
+        $this->addStatusAndPrioritas();
+    }
 
-        // Index yang melibatkan kolom enum native (prioritas, status) HARUS dibuat
-        // SETELAH kolom tersebut ada — karena itu tidak bisa didefinisikan di dalam
-        // Schema::create() di atas (kolomnya baru muncul lewat DB::statement ini).
-        DB::statement("CREATE INDEX tickets_departemen_status_index ON tickets (departemen_id, status)");
-        DB::statement("CREATE INDEX tickets_prioritas_status_index ON tickets (prioritas, status)");
+    private function addStatusAndPrioritas(): void
+    {
+        if (DB::connection()->getDriverName() === 'pgsql') {
+            DB::statement("ALTER TABLE tickets ADD COLUMN prioritas ticket_priority NOT NULL DEFAULT 'sedang'");
+            DB::statement("ALTER TABLE tickets ADD COLUMN status ticket_status NOT NULL DEFAULT 'open'");
 
-        // CHECK CONSTRAINT: guest wajib punya nama_guest+kontak_guest JIKA id_pelapor NULL
-        DB::statement("
-            ALTER TABLE tickets ADD CONSTRAINT chk_pelapor_valid
-            CHECK (
-                id_pelapor IS NOT NULL
-                OR (nama_guest IS NOT NULL AND kontak_guest IS NOT NULL)
-            )
-        ");
+            // Index yang melibatkan kolom enum native (prioritas, status) HARUS dibuat
+            // SETELAH kolom tersebut ada — karena itu tidak bisa didefinisikan di dalam
+            // Schema::create() di atas (kolomnya baru muncul lewat DB::statement ini).
+            DB::statement('CREATE INDEX tickets_departemen_status_index ON tickets (departemen_id, status)');
+            DB::statement('CREATE INDEX tickets_prioritas_status_index ON tickets (prioritas, status)');
 
-        // CHECK CONSTRAINT: status resolved/closed WAJIB ada evidence penyelesaian
-        DB::statement("
-            ALTER TABLE tickets ADD CONSTRAINT chk_evidence_resolved
-            CHECK (
-                status NOT IN ('resolved', 'closed')
-                OR file_evidence_penyelesaian IS NOT NULL
-            )
-        ");
+            // CHECK CONSTRAINT: guest wajib punya nama_guest+kontak_guest JIKA id_pelapor NULL
+            DB::statement('
+                ALTER TABLE tickets ADD CONSTRAINT chk_pelapor_valid
+                CHECK (
+                    id_pelapor IS NOT NULL
+                    OR (nama_guest IS NOT NULL AND kontak_guest IS NOT NULL)
+                )
+            ');
+
+            // CHECK CONSTRAINT: status resolved/closed WAJIB ada evidence penyelesaian
+            DB::statement("
+                ALTER TABLE tickets ADD CONSTRAINT chk_evidence_resolved
+                CHECK (
+                    status NOT IN ('resolved', 'closed')
+                    OR file_evidence_penyelesaian IS NOT NULL
+                )
+            ");
+
+            return;
+        }
+
+        // SQLite (test suite): tidak mendukung ALTER TABLE ADD CONSTRAINT / tipe enum,
+        // kolom dideklarasikan sebagai string dengan nama index yang sama.
+        Schema::table('tickets', function (Blueprint $table) {
+            $table->string('prioritas', 20)->default('sedang');
+            $table->string('status', 20)->default('open');
+            $table->index(['departemen_id', 'status'], 'tickets_departemen_status_index');
+            $table->index(['prioritas', 'status'], 'tickets_prioritas_status_index');
+        });
     }
 
     public function down(): void

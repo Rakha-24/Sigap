@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ResolveTicketRequest;
 use App\Http\Requests\StoreTicketRequest;
+use App\Models\Departemen;
 use App\Models\Kategori;
 use App\Models\Ticket;
-use App\Services\TicketNumberGenerator;
 use App\Services\SlaCalculator;
+use App\Services\TicketNumberGenerator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class TicketController extends Controller
 {
@@ -31,7 +31,8 @@ class TicketController extends Controller
     public function create()
     {
         return view('tickets.create', [
-            'departemens' => \App\Models\Departemen::where('is_active', true)->get(),
+            'departemens' => Departemen::where('is_active', true)->get(),
+            'kategoris' => Kategori::with('departemen')->get(),
         ]);
     }
 
@@ -45,17 +46,17 @@ class TicketController extends Controller
                 : null;
 
             return Ticket::create([
-                'nomor_tiket'    => $this->numberGenerator->generate(),
-                'departemen_id'  => $request->departemen_id,
-                'kategori_id'    => $request->kategori_id,
-                'id_pelapor'     => auth()->id(),
-                'judul'          => $request->judul,
-                'deskripsi'      => $request->deskripsi,
-                'prioritas'      => $request->prioritas,
-                'status'         => 'open',
+                'nomor_tiket' => $this->numberGenerator->generate(),
+                'departemen_id' => $request->departemen_id,
+                'kategori_id' => $request->kategori_id,
+                'id_pelapor' => auth()->id(),
+                'judul' => $request->judul,
+                'deskripsi' => $request->deskripsi,
+                'prioritas' => $request->prioritas,
+                'status' => 'open',
                 'file_evidence_pelapor' => $path,
-                'sla_target_at'  => $this->slaCalculator->hitung($kategori, $request->prioritas),
-                'ip_pelapor'     => $request->ip(),
+                'sla_target_at' => $this->slaCalculator->hitung($kategori, $request->prioritas),
+                'ip_pelapor' => $request->ip(),
             ]);
         });
 

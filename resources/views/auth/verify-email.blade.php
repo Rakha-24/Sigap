@@ -1,31 +1,30 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
-    </div>
+@extends('layouts.auth')
+@section('title', 'Verifikasi Email - SIGAP')
+
+@section('content')
+<div id="sigap-verify-email" class="sigap-auth-form">
+    <h2 class="sigap-auth-form__title">Verifikasi Email Anda</h2>
+    <p class="sigap-auth-form__subtitle">
+        Terima kasih telah mendaftar! Sebelum memulai, mohon verifikasi alamat email Anda
+        dengan mengklik tautan yang kami kirimkan.
+    </p>
 
     @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
+        <div class="sigap-alert sigap-alert--success w-full" id="sigap-verify-email__status">
+            Tautan verifikasi baru telah dikirim ke email Anda.
         </div>
     @endif
 
-    <div class="mt-4 flex items-center justify-between">
+    <div class="flex flex-col gap-3 w-full">
         <form method="POST" action="{{ route('verification.send') }}">
             @csrf
-
-            <div>
-                <x-primary-button>
-                    {{ __('Resend Verification Email') }}
-                </x-primary-button>
-            </div>
+            <button type="submit" class="sigap-form__submit">Kirim Ulang Email Verifikasi</button>
         </form>
 
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-
-            <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                {{ __('Log Out') }}
-            </button>
+            <button type="submit" class="sigap-btn sigap-btn--secondary w-full">Keluar</button>
         </form>
     </div>
-</x-guest-layout>
+</div>
+@endsection

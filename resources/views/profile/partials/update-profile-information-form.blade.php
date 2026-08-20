@@ -1,63 +1,52 @@
-<section>
-    <header>
-        <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Profile Information') }}
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600">
-            {{ __("Update your account's profile information and email address.") }}
-        </p>
-    </header>
+<section class="sigap-card">
+    <div class="sigap-card__header">
+        <div>
+            <h2 class="text-lg font-semibold text-slate-900">Informasi Profil</h2>
+            <p class="text-sm text-slate-500 mt-0.5">Perbarui informasi akun dan alamat email Anda.</p>
+        </div>
+    </div>
 
     <form id="send-verification" method="post" action="{{ route('verification.send') }}">
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="sigap-form max-w-none">
         @csrf
         @method('patch')
 
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+        <div class="sigap-form__group">
+            <label for="name" class="sigap-form__label">Nama Lengkap</label>
+            <input id="name" name="name" type="text" class="sigap-form__input"
+                   value="{{ old('name', $user->name) }}" required autofocus autocomplete="name">
+            @error('name') <span class="sigap-form__error">{{ $message }}</span> @enderror
         </div>
 
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
-            <x-input-error class="mt-2" :messages="$errors->get('email')" />
+        <div class="sigap-form__group">
+            <label for="email" class="sigap-form__label">Email</label>
+            <input id="email" name="email" type="email" class="sigap-form__input"
+                   value="{{ old('email', $user->email) }}" required autocomplete="username">
+            @error('email') <span class="sigap-form__error">{{ $message }}</span> @enderror
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <div>
-                    <p class="text-sm mt-2 text-gray-800">
-                        {{ __('Your email address is unverified.') }}
-
-                        <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            {{ __('Click here to re-send the verification email.') }}
-                        </button>
-                    </p>
-
+                <div class="sigap-alert sigap-alert--error !mx-0 !mb-0 w-full">
+                    Alamat email Anda belum diverifikasi.
+                    <button form="send-verification" class="underline font-semibold hover:text-red-800 transition-colors">
+                        Klik di sini untuk mengirim ulang email verifikasi.
+                    </button>
                     @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600">
-                            {{ __('A new verification link has been sent to your email address.') }}
-                        </p>
+                        <div class="mt-1 font-medium text-emerald-700">Tautan verifikasi baru telah dikirim ke email Anda.</div>
                     @endif
                 </div>
             @endif
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
-
+            <button type="submit" class="sigap-btn sigap-btn--primary">Simpan</button>
             @if (session('status') === 'profile-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600"
-                >{{ __('Saved.') }}</p>
+                <p x-data="{ show: true }" x-show="show" x-transition
+                   x-init="setTimeout(() => show = false, 3000)" class="text-sm text-emerald-600 font-medium">
+                    Tersimpan.
+                </p>
             @endif
         </div>
     </form>

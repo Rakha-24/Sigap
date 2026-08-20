@@ -1,12 +1,12 @@
 @extends('layouts.app')
-@section('title', 'Dashboard Saya')
+@section('title', 'Tiket Saya')
 
 @section('content')
-<section id="sigap-user-dashboard" class="sigap-page">
+<section id="sigap-tickets-index" class="sigap-page">
     <div class="sigap-page__header">
         <div>
-            <h1 class="sigap-page__title">Dashboard Saya</h1>
-            <p class="sigap-page__subtitle">Ringkasan tiket dan aktivitas Anda.</p>
+            <h1 class="sigap-page__title">Tiket Saya</h1>
+            <p class="sigap-page__subtitle">Seluruh laporan yang pernah Anda buat.</p>
         </div>
         <a href="{{ route('tickets.create') }}" class="sigap-btn sigap-btn--primary">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
@@ -17,48 +17,17 @@
         </a>
     </div>
 
-    <div class="sigap-stats-grid" id="sigap-user-dashboard__stats">
-        <div class="sigap-stat-card">
-            <div class="sigap-stat-card__icon sigap-stat-card__icon--blue">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>
-                    <path d="M14 2v4a1 1 0 0 0 1 1h3"/>
-                </svg>
-            </div>
-            <span class="sigap-stat-card__label">Total Tiket</span>
-            <span class="sigap-stat-card__value">{{ $stats['total'] }}</span>
-        </div>
-        <div class="sigap-stat-card">
-            <div class="sigap-stat-card__icon sigap-stat-card__icon--amber">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"/>
-                    <polyline points="12 6 12 12 16 14"/>
-                </svg>
-            </div>
-            <span class="sigap-stat-card__label">Sedang Diproses</span>
-            <span class="sigap-stat-card__value">{{ $stats['in_progress'] }}</span>
-        </div>
-        <div class="sigap-stat-card">
-            <div class="sigap-stat-card__icon sigap-stat-card__icon--emerald">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                    <polyline points="22 4 12 14.01 9 11.01"/>
-                </svg>
-            </div>
-            <span class="sigap-stat-card__label">Selesai</span>
-            <span class="sigap-stat-card__value">{{ $stats['selesai'] }}</span>
-        </div>
-    </div>
-
-    <div class="sigap-table-wrapper" id="sigap-user-dashboard__table">
+    <div class="sigap-table-wrapper" id="sigap-tickets-index__table">
         <table class="sigap-table">
             <thead>
                 <tr>
                     <th>Nomor Tiket</th>
                     <th>Judul</th>
                     <th>Departemen</th>
+                    <th>Kategori</th>
                     <th>Prioritas</th>
                     <th>Status</th>
+                    <th>Dibuat</th>
                     <th></th>
                 </tr>
             </thead>
@@ -71,9 +40,11 @@
                                 {{ $ticket->judul }}
                             </a>
                         </td>
-                        <td class="text-slate-500">{{ $ticket->departemen->nama }}</td>
+                        <td class="text-slate-500">{{ $ticket->departemen->nama ?? '-' }}</td>
+                        <td class="text-slate-500">{{ $ticket->kategori->nama ?? '-' }}</td>
                         <td><span class="sigap-badge sigap-badge--priority-{{ $ticket->prioritas }}">{{ ucfirst($ticket->prioritas) }}</span></td>
                         <td><span class="sigap-badge sigap-badge--{{ $ticket->status }}">{{ ucfirst(str_replace('_', ' ', $ticket->status)) }}</span></td>
+                        <td class="text-slate-500 text-sm whitespace-nowrap">{{ $ticket->created_at->format('d M Y') }}</td>
                         <td class="sigap-table__actions">
                             <a href="{{ route('tickets.show', $ticket) }}" class="sigap-btn sigap-btn--sm sigap-btn--secondary">
                                 Detail
@@ -82,7 +53,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6">
+                        <td colspan="8">
                             <div class="sigap-empty">
                                 <svg class="sigap-empty__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>
@@ -99,16 +70,8 @@
         </table>
     </div>
 
-    @if($stats['total'] > 0)
-    <div>
-        <a href="{{ route('tickets.index') }}" class="sigap-btn sigap-btn--secondary">
-            Lihat Semua Tiket
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"/>
-                <polyline points="12 5 19 12 12 19"/>
-            </svg>
-        </a>
-    </div>
+    @if($tickets->hasPages())
+        <div>{{ $tickets->links() }}</div>
     @endif
 </section>
 @endsection

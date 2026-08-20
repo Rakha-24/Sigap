@@ -72,6 +72,16 @@ Ikuti langkah-langkah di bawah ini untuk mengonfigurasi dan menjalankan *project
     ```
     Buka `http://localhost:8000` di *browser* Anda.
 
+## 🧪 Menjalankan Test Suite
+
+Suite pengujian berjalan di atas SQLite *in-memory* (diatur lewat `phpunit.xml`), sehingga tidak membutuhkan PostgreSQL untuk dieksekusi:
+
+```bash
+php artisan test
+```
+
+Catatan: migrasi bersifat *driver-aware* — fitur native PostgreSQL (tipe ENUM, CHECK constraint, trigger immutable `audit_logs`) hanya aktif saat `DB_CONNECTION=pgsql`; di SQLite, kolom enum dibuat sebagai string agar test ringan dan cepat.
+
 ## 👥 Akun Default (Testing)
 
 Proses *seeding* di atas telah menyiapkan beberapa akun untuk keperluan *testing*:

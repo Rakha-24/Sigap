@@ -9,7 +9,7 @@
     </p>
 
     @if (session('status'))
-        <div class="sigap-alert sigap-alert--success" id="sigap-forgot-password__status">
+        <div class="sigap-alert sigap-alert--success w-full" id="sigap-forgot-password__status">
             {{ session('status') }}
         </div>
     @endif

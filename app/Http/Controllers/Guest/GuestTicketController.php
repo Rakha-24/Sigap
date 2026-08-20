@@ -9,6 +9,7 @@ use App\Models\Kategori;
 use App\Models\Ticket;
 use App\Services\SlaCalculator;
 use App\Services\TicketNumberGenerator;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -23,6 +24,7 @@ class GuestTicketController extends Controller
     {
         return view('guest.create', [
             'departemens' => Departemen::where('is_active', true)->get(),
+            'kategoris' => Kategori::with('departemen')->get(),
         ]);
     }
 
@@ -36,19 +38,19 @@ class GuestTicketController extends Controller
                 : null;
 
             return Ticket::create([
-                'nomor_tiket'    => $this->numberGenerator->generate(),
-                'departemen_id'  => $request->departemen_id,
-                'kategori_id'    => $request->kategori_id,
-                'nama_guest'     => $request->nama_guest,
-                'kontak_guest'   => $request->kontak_guest,
+                'nomor_tiket' => $this->numberGenerator->generate(),
+                'departemen_id' => $request->departemen_id,
+                'kategori_id' => $request->kategori_id,
+                'nama_guest' => $request->nama_guest,
+                'kontak_guest' => $request->kontak_guest,
                 'tracking_token' => Str::random(40),
-                'judul'          => $request->judul,
-                'deskripsi'      => $request->deskripsi,
-                'prioritas'      => $request->prioritas,
-                'status'         => 'open',
+                'judul' => $request->judul,
+                'deskripsi' => $request->deskripsi,
+                'prioritas' => $request->prioritas,
+                'status' => 'open',
                 'file_evidence_pelapor' => $path,
-                'sla_target_at'  => $this->slaCalculator->hitung($kategori, $request->prioritas),
-                'ip_pelapor'     => $request->ip(),
+                'sla_target_at' => $this->slaCalculator->hitung($kategori, $request->prioritas),
+                'ip_pelapor' => $request->ip(),
             ]);
         });
 
@@ -58,9 +60,23 @@ class GuestTicketController extends Controller
     }
 
     /** Form pelacakan (input nomor tiket). */
-    public function trackForm()
+    public function trackForm(Request $request)
     {
-        return view('guest.track');
+        $nomorTiket = $request->query('nomor_tiket');
+
+        if ($nomorTiket === null) {
+            return view('guest.track');
+        }
+
+        $tiket = Ticket::where('nomor_tiket', $nomorTiket)->first();
+
+        if (! $tiket) {
+            return redirect()
+                ->route('guest.track.form')
+                ->with('error', "Nomor tiket '{$nomorTiket}' tidak ditemukan. Periksa kembali nomor tiket Anda.");
+        }
+
+        return redirect()->route('guest.track.show', $tiket->nomor_tiket);
     }
 
     /** Hasil pelacakan tiket berdasarkan nomor tiket. */

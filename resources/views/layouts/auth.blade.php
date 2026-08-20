@@ -12,9 +12,15 @@
 <body id="sigap-auth-body">
     <div id="sigap-auth-shell" class="sigap-auth-shell">
         <aside id="sigap-auth-shell__brand" class="sigap-auth-shell__brand">
-            {{-- Elemen dekoratif murni CSS/SVG — dua orb blur untuk kedalaman,
-                 plus SATU watermark ikon petir besar sebagai signature panel ini
-                 (bukan pola berulang yang terkesan wallpaper). --}}
+            {{-- Pola titik halus + dua orb blur untuk kedalaman, plus watermark ikon petir --}}
+            <svg class="sigap-auth-shell__pattern" width="100%" height="100%" aria-hidden="true">
+                <defs>
+                    <pattern id="sigapDotGrid" width="28" height="28" patternUnits="userSpaceOnUse">
+                        <circle cx="2" cy="2" r="1.5" fill="#FFFFFF"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#sigapDotGrid)"/>
+            </svg>
             <div class="sigap-auth-shell__orb sigap-auth-shell__orb--top" aria-hidden="true"></div>
             <div class="sigap-auth-shell__orb sigap-auth-shell__orb--bottom" aria-hidden="true"></div>
             <svg class="sigap-auth-shell__watermark" viewBox="0 0 100 100" aria-hidden="true">
@@ -47,11 +53,43 @@
                         </li>
                     @endforeach
                 </ul>
+
+                <div class="sigap-auth-shell__stats">
+                    <div>
+                        <div class="sigap-auth-shell__stat-value">24/7</div>
+                        <div class="sigap-auth-shell__stat-label">Dukungan</div>
+                    </div>
+                    <div>
+                        <div class="sigap-auth-shell__stat-value">100%</div>
+                        <div class="sigap-auth-shell__stat-label">Transparan</div>
+                    </div>
+                    <div>
+                        <div class="sigap-auth-shell__stat-value">SLA</div>
+                        <div class="sigap-auth-shell__stat-label">Terukur</div>
+                    </div>
+                </div>
             </div>
         </aside>
 
         <section id="sigap-auth-shell__panel" class="sigap-auth-shell__panel">
-            @yield('content')
+            <div class="sigap-auth-shell__panel-card">
+                <a href="{{ route('guest.landing') }}" class="sigap-auth-shell__back">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"/>
+                        <polyline points="12 19 5 12 12 5"/>
+                    </svg>
+                    Kembali ke Beranda
+                </a>
+                <div class="sigap-auth-shell__panel-logo">
+                    <span class="sigap-sidebar__brand-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                            <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" fill="currentColor"/>
+                        </svg>
+                    </span>
+                    SIGAP
+                </div>
+                @yield('content')
+            </div>
         </section>
     </div>
 </body>

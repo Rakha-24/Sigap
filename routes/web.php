@@ -3,11 +3,14 @@
 use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\MasterDataController;
+use App\Http\Controllers\Admin\TicketAdminController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Agent\QueueController;
 use App\Http\Controllers\Agent\TicketClaimController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Guest\GuestTicketController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,8 +49,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    // Profil pengguna
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
     // Tiket bisa diakses semua role internal (user membuat, agent/admin melihat)
     Route::resource('tickets', TicketController::class)->only(['index', 'create', 'store', 'show']);
+    Route::post('/tickets/{ticket}/comments', [CommentController::class, 'store'])
+        ->name('tickets.comments.store');
 
     // AGENT — semua route di bawah ini otomatis dibatasi per-departemen di level
     // controller (QueueController & TicketClaimController), bukan cuma di middleware,
@@ -60,11 +70,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // ADMIN
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/tickets', [TicketAdminController::class, 'index'])->name('tickets.index');
         Route::get('/analitik', [AnalyticsController::class, 'index'])->name('analytics');
         Route::get('/analitik/export', [AnalyticsController::class, 'export'])->name('analytics.export');
 
         Route::resource('master-data/departemen', MasterDataController::class)
-    ->names('master-data.departemen');
+            ->names('master-data.departemen');
 
         Route::resource('master-data/kategori', KategoriController::class)
             ->except(['show'])
