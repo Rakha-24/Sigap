@@ -3,23 +3,23 @@
 [![Status](https://img.shields.io/badge/status-active-success.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)]()
 
-SIGAP adalah sistem *helpdesk* generik yang mendukung pelaporan publik (guest) maupun internal (multi-role: admin, agent, user)[cite: 2]. Sistem ini dirancang untuk memproses keluhan secara transparan, dilengkapi dengan *audit trail* yang *immutable* dan pelacakan SLA (*Service Level Agreement*)[cite: 2].
+SIGAP adalah sistem *helpdesk* generik yang mendukung pelaporan publik (guest) maupun internal (multi-role: admin, agent, user). Sistem ini dirancang untuk memproses keluhan secara transparan, dilengkapi dengan *audit trail* yang *immutable* dan pelacakan SLA (*Service Level Agreement*).
 
 ## ✨ Fitur Utama
 
-*   **Multi-Role Dashboard**: Menyediakan ruang kerja yang terisolasi dan spesifik untuk peran *Admin*, *Agent*, dan *User*[cite: 2].
-*   **Guest Ticketing**: Portal pelaporan bagi masyarakat umum tanpa perlu membuat akun, yang dilindungi oleh *rate limiting* untuk mencegah *spam bot*[cite: 2].
-*   **Siklus Tiket & Evidence Logic**: Memiliki validasi ketat yang menolak penyelesaian tiket (*status resolved*) jika *agent* tidak menyertakan file bukti (*evidence*) penanganan[cite: 2].
-*   **Immutable Audit Log**: Semua riwayat perubahan tiket dan log aktivitas tidak dapat diubah atau dihapus, dilindungi langsung di level *database* menggunakan *trigger*[cite: 2].
-*   **Antrean Prioritas Cerdas**: *Agent* mendapatkan antrean tiket yang diurutkan secara otomatis berdasarkan prioritas tertinggi (Tinggi, Sedang, Rendah) dan sisa waktu SLA yang paling dekat[cite: 2].
-*   **Laporan & Analitik**: Panel khusus Admin untuk melihat matriks kinerja, kepatuhan SLA per departemen, dan kemampuan *export* data ke dalam bentuk Excel (.xlsx)[cite: 2].
+*   **Multi-Role Dashboard**: Menyediakan ruang kerja yang terisolasi dan spesifik untuk peran *Admin*, *Agent*, dan *User*.
+*   **Guest Ticketing**: Portal pelaporan bagi masyarakat umum tanpa perlu membuat akun, yang dilindungi oleh *rate limiting* untuk mencegah *spam bot*.
+*   **Siklus Tiket & Evidence Logic**: Memiliki validasi ketat yang menolak penyelesaian tiket (*status resolved*) jika *agent* tidak menyertakan file bukti (*evidence*) penanganan.
+*   **Immutable Audit Log**: Semua riwayat perubahan tiket dan log aktivitas tidak dapat diubah atau dihapus, dilindungi langsung di level *database* menggunakan *trigger*.
+*   **Antrean Prioritas Cerdas**: *Agent* mendapatkan antrean tiket yang diurutkan secara otomatis berdasarkan prioritas tertinggi (Tinggi, Sedang, Rendah) dan sisa waktu SLA yang paling dekat.
+*   **Laporan & Analitik**: Panel khusus Admin untuk melihat matriks kinerja, kepatuhan SLA per departemen, dan kemampuan *export* data ke dalam bentuk Excel (.xlsx).
 
 ## 🛠️ Tech Stack
 
-*   **Framework**: Laravel 13[cite: 2]
-*   **Backend / Logic**: PHP 8.3[cite: 2]
-*   **Database**: PostgreSQL[cite: 2]
-*   **Frontend / UI**: Laravel Breeze (Blade)[cite: 2]
+*   **Framework**: Laravel 13
+*   **Backend / Logic**: PHP 8.3
+*   **Database**: PostgreSQL
+*   **Frontend / UI**: Laravel Breeze (Blade)
 
 ## ⚙️ Persyaratan (Prerequisites)
 
@@ -65,7 +65,7 @@ Ikuti langkah-langkah di bawah ini untuk mengonfigurasi dan menjalankan *project
     ```bash
     php artisan migrate:fresh --seed
     ```
-    *(Proses ini akan mengonfigurasi database sekaligus memasukkan data referensi departemen, kategori, dan akun pengguna awal)*[cite: 2].
+    *(Proses ini akan mengonfigurasi database sekaligus memasukkan data referensi departemen, kategori, dan akun pengguna awal)*.
 6.  **Jalankan aplikasi:**
     ```bash
     php artisan serve
@@ -74,11 +74,11 @@ Ikuti langkah-langkah di bawah ini untuk mengonfigurasi dan menjalankan *project
 
 ## 👥 Akun Default (Testing)
 
-Proses *seeding* di atas telah menyiapkan beberapa akun untuk keperluan *testing*[cite: 2]:
+Proses *seeding* di atas telah menyiapkan beberapa akun untuk keperluan *testing*:
 
-*   **Admin**: `admin@sigap.test` (Sandi: `password`)[cite: 2]
-*   **Agent (IT Support)**: `agent@sigap.test` (Sandi: `password`)[cite: 2]
-*   **User Umum**: `user@sigap.test` (Sandi: `password`)[cite: 2]
+*   **Admin**: `admin@sigap.test` (Sandi: `password`)
+*   **Agent (IT Support)**: `agent@sigap.test` (Sandi: `password`)
+*   **User Umum**: `user@sigap.test` (Sandi: `password`)
 
 ## 🤝 Kontribusi
 
