@@ -63,7 +63,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/analitik', [AnalyticsController::class, 'index'])->name('analytics');
         Route::get('/analitik/export', [AnalyticsController::class, 'export'])->name('analytics.export');
 
-        Route::resource('master-data/departemen', MasterDataController::class);
+        Route::resource('master-data/departemen', MasterDataController::class)
+    ->names('master-data.departemen');
 
         Route::resource('master-data/kategori', KategoriController::class)
             ->except(['show'])
