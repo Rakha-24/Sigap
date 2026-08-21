@@ -82,48 +82,90 @@ Alpine.data('avatarCropper', () => ({
 Alpine.data('cameraCapture', () => ({
     open: false,
     error: null,
+    starting: false,
+    ready: false,
     facing: 'environment',
     stream: null,
     shotUrl: null,
 
     async start() {
         this.error = null;
+        this.ready = false;
         this.open = true;
 
+        if (!window.isSecureContext) {
+            this.error = `Kamera diblokir browser karena halaman ini tidak aman (${location.protocol}//${location.host}). Buka aplikasi melalui localhost atau HTTPS, atau gunakan tombol pilih file.`;
+            return;
+        }
         if (!navigator.mediaDevices?.getUserMedia) {
             this.error = 'Browser ini tidak mendukung akses kamera. Silakan pilih file dari galeri.';
             return;
         }
+
+        this.starting = true;
         await this.startStream();
     },
 
     async startStream() {
         this.stopStream();
+        this.ready = false;
         try {
             this.stream = await navigator.mediaDevices.getUserMedia({
                 video: { facingMode: this.facing, width: { ideal: 1920 }, height: { ideal: 1080 } },
                 audio: false,
             });
-            this.$nextTick(() => {
-                const video = this.$refs.video;
-                video.srcObject = this.stream;
-                video.play();
-            });
-        } catch {
-            this.error = window.isSecureContext
-                ? 'Tidak dapat mengakses kamera. Pastikan izin kamera telah diizinkan untuk situs ini.'
-                : 'Kamera hanya dapat diakses melalui HTTPS atau localhost. Silakan pilih file dari galeri.';
+        } catch (e) {
+            this.starting = false;
+            this.error = this.errorMessage(e);
+            console.warn('[SIGAP] Kamera gagal:', e?.name, e?.message);
+            return;
         }
+
+        this.$nextTick(async () => {
+            const video = this.$refs.video;
+            if (!video) return;
+            video.srcObject = this.stream;
+            try {
+                await video.play();
+            } catch (e) {
+                console.warn('[SIGAP] Video belum dapat diputar:', e?.name);
+            }
+        });
+    },
+
+    stopStream() {
+        this.stream?.getTracks().forEach((track) => track.stop());
+        this.stream = null;
+    },
+
+    errorMessage(e) {
+        switch (e?.name) {
+            case 'NotAllowedError':
+            case 'SecurityError':
+                return 'Izin kamera diblokir. Klik ikon kamera atau gembok di address bar, pilih "Izinkan", lalu coba lagi.';
+            case 'NotFoundError':
+                return 'Kamera tidak ditemukan pada perangkat ini.';
+            case 'NotReadableError':
+                return 'Kamera sedang dipakai aplikasi lain. Tutup aplikasi tersebut (mis. Zoom/Meet) lalu coba lagi.';
+            default:
+                return 'Gagal mengakses kamera. Silakan pilih file dari galeri sebagai alternatif.';
+        }
+    },
+
+    onReady() {
+        this.starting = false;
+        this.ready = true;
     },
 
     async flip() {
         this.facing = this.facing === 'environment' ? 'user' : 'environment';
+        this.starting = true;
         await this.startStream();
     },
 
     shoot() {
         const video = this.$refs.video;
-        if (!video?.videoWidth) return;
+        if (!this.ready || !video?.videoWidth) return;
 
         const scale = Math.min(1, 1600 / Math.max(video.videoWidth, video.videoHeight));
         const canvas = document.createElement('canvas');
@@ -148,8 +190,9 @@ Alpine.data('cameraCapture', () => ({
 
     close() {
         this.open = false;
-        this.stream?.getTracks().forEach((track) => track.stop());
-        this.stream = null;
+        this.starting = false;
+        this.ready = false;
+        this.stopStream();
     },
 
     onPick() {
