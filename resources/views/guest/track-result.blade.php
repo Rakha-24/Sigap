@@ -50,7 +50,13 @@
             @forelse($ticket->comments as $comment)
                 <div class="sigap-comment">
                     <div class="sigap-comment__header">
-                        <span class="sigap-comment__avatar">{{ strtoupper(substr($comment->user->name ?? 'T', 0, 1)) }}</span>
+                        <span class="sigap-comment__avatar">
+                        @if ($comment->user?->avatar_url)
+                            <img src="{{ $comment->user->avatar_url }}" alt="" class="sigap-avatar__img">
+                        @else
+                            {{ strtoupper(substr($comment->user->name ?? 'T', 0, 1)) }}
+                        @endif
+                    </span>
                         <div>
                             <span class="sigap-comment__author">{{ $comment->user->name ?? 'Tim SIGAP' }}</span>
                             <p class="sigap-comment__meta">{{ $comment->created_at->diffForHumans() }}</p>
@@ -69,10 +75,27 @@
         @if($ticket->auditLogs->count())
             <ul class="sigap-timeline">
                 @foreach($ticket->auditLogs as $log)
+                    @php
+                        $statusBaru    = $log->data_after['status'] ?? null;
+                        $konteksStatus = $log->aksi === 'status_changed' ? ($statusBaru ?? 'open') : $log->aksi;
+
+                        $judulAksi = match ($log->aksi) {
+                            'ticket_created' => 'Tiket berhasil dibuat',
+                            'status_changed' => match ($statusBaru) {
+                                'open'        => 'Tiket dibuka kembali',
+                                'in_progress' => 'Tiket mulai ditangani teknisi',
+                                'resolved'    => 'Tiket selesai ditangani',
+                                'closed'      => 'Tiket resmi ditutup',
+                                'rejected'    => 'Pengajuan tiket ditolak',
+                                default       => $log->deskripsi,
+                            },
+                            default => $log->deskripsi,
+                        };
+                    @endphp
                     <li class="sigap-timeline__item">
-                        <span class="sigap-timeline__dot {{ in_array($log->aksi, ['resolved', 'closed']) ? 'sigap-timeline__dot--' . $log->aksi : '' }}"></span>
-                        <span class="sigap-timeline__time">{{ $log->created_at->format('d M Y, H:i') }}</span>
-                        <span class="sigap-timeline__desc">{{ $log->deskripsi }}</span>
+                        <span class="sigap-timeline__dot sigap-timeline__dot--{{ $konteksStatus }}"></span>
+                        <p class="sigap-timeline__desc">{{ $judulAksi }}</p>
+                        <p class="sigap-timeline__meta">{{ $log->created_at->format('d M Y, H:i') }}</p>
                     </li>
                 @endforeach
             </ul>

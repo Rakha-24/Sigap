@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -36,6 +37,20 @@ class User extends Authenticatable
             'password'          => 'hashed',
             'is_active'         => 'boolean',
         ];
+    }
+
+    /** URL foto profil yang bisa diakses publik (null bila belum mengunggah). */
+    public function getAvatarUrlAttribute(): ?string
+    {
+        return $this->avatar ? asset('storage/' . $this->avatar) : null;
+    }
+
+    /** Hapus berkas foto profil lama dari disk publik bila ada. */
+    public function deleteAvatarFile(): void
+    {
+        if ($this->avatar && Storage::disk('public')->exists($this->avatar)) {
+            Storage::disk('public')->delete($this->avatar);
+        }
     }
 
     /** Departemen tempat agent bertugas (khusus role agent). */

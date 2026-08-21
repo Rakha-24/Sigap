@@ -111,15 +111,23 @@
 
         {{-- Bottom: user info + logout --}}
         <div class="sigap-sidebar__bottom">
-            <div class="sigap-sidebar__user-info">
+            <a href="{{ route('profile.edit') }}" title="Pengaturan profil"
+               class="sigap-sidebar__user-info {{ request()->routeIs('profile.*') ? 'sigap-sidebar__user-info--active' : '' }}">
                 <div class="sigap-sidebar__avatar">
-                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                    @if (auth()->user()->avatar_url)
+                        <img src="{{ auth()->user()->avatar_url }}" alt="" class="sigap-avatar__img">
+                    @else
+                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                    @endif
                 </div>
                 <div class="sigap-sidebar__user-detail">
                     <span class="sigap-sidebar__user-name">{{ auth()->user()->name }}</span>
-                    <span class="sigap-sidebar__user-role">{{ ucfirst(auth()->user()->role ?? 'User') }}</span>
+                    <span class="sigap-sidebar__user-role">Pengaturan profil</span>
                 </div>
-            </div>
+                <svg class="ml-auto text-slate-300 shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"/>
+                </svg>
+            </a>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit" class="sigap-sidebar__logout" title="Keluar">
@@ -163,10 +171,16 @@
                 </div>
             </div>
             <div class="sigap-topbar__right">
-                <span class="sigap-topbar__user">{{ auth()->user()->name }}</span>
-                <span class="sigap-avatar sigap-avatar--sm">
-                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                </span>
+                <a href="{{ route('profile.edit') }}" title="Profil saya" class="sigap-topbar__user-link">
+                    <span class="sigap-topbar__user">{{ auth()->user()->name }}</span>
+                    <span class="sigap-avatar sigap-avatar--sm">
+                        @if (auth()->user()->avatar_url)
+                            <img src="{{ auth()->user()->avatar_url }}" alt="" class="sigap-avatar__img">
+                        @else
+                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                        @endif
+                    </span>
+                </a>
             </div>
         </header>
         <main id="sigap-app-main" class="flex-1">

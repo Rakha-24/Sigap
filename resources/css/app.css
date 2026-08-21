@@ -188,6 +188,7 @@
                bg-sigap-100 text-sigap-700 text-sm font-bold shrink-0;
     }
     .sigap-avatar--sm { @apply w-8 h-8 text-xs; }
+    .sigap-avatar__img { @apply w-full h-full rounded-full object-cover; }
 
     /* ============ GUEST: NAVBAR ============ */
     .sigap-navbar {
@@ -303,16 +304,21 @@
     .sigap-track-result__grid { @apply grid md:grid-cols-2 gap-4; }
 
     /* ============ TIMELINE ============ */
-    .sigap-timeline { @apply flex flex-col gap-6 border-l-2 border-slate-200 pl-6 ml-2; }
-    .sigap-timeline__item { @apply relative; }
+    .sigap-timeline { @apply flex flex-col border-l-2 border-slate-200 pl-7 ml-2; }
+    .sigap-timeline__item { @apply relative pb-7 last:pb-0; }
     .sigap-timeline__dot {
-        @apply absolute -left-[1.9rem] top-0.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-sigap-500;
+        @apply absolute -left-[2.31rem] top-1 w-4 h-4 rounded-full border-2 border-white bg-slate-300 ring-4 ring-slate-100;
     }
-    .sigap-timeline__dot--resolved { @apply bg-emerald-500; }
-    .sigap-timeline__dot--pending  { @apply bg-amber-400; }
-    .sigap-timeline__dot--closed   { @apply bg-slate-400; }
-    .sigap-timeline__time { @apply block text-xs text-slate-400 mb-0.5; }
-    .sigap-timeline__desc { @apply block text-sm text-slate-700; }
+    .sigap-timeline__dot--ticket_created      { @apply bg-sigap-500 ring-sigap-100; }
+    .sigap-timeline__dot--open                { @apply bg-sky-500 ring-sky-100; }
+    .sigap-timeline__dot--in_progress         { @apply bg-amber-400 ring-amber-100; }
+    .sigap-timeline__dot--resolved            { @apply bg-emerald-500 ring-emerald-100; }
+    .sigap-timeline__dot--rejected            { @apply bg-red-500 ring-red-100; }
+    .sigap-timeline__dot--closed              { @apply bg-slate-400 ring-slate-200; }
+    .sigap-timeline__dot--comment_added       { @apply bg-sigap-500 ring-sigap-100; }
+    .sigap-timeline__dot--internal_note_added { @apply bg-violet-400 ring-violet-100; }
+    .sigap-timeline__desc { @apply block text-sm font-medium text-slate-800 leading-snug; }
+    .sigap-timeline__meta { @apply mt-1.5 flex flex-wrap items-center gap-x-1.5 text-xs text-slate-400; }
 
     /* ============ COMMENTS ============ */
     .sigap-comment { @apply border-b border-slate-100 pb-4 last:border-0 last:pb-0; }
@@ -409,7 +415,11 @@
     .sigap-sidebar__bottom {
         @apply flex flex-col gap-3 pt-4 border-t border-slate-100;
     }
-    .sigap-sidebar__user-info { @apply flex items-center gap-3 px-2; }
+    .sigap-sidebar__user-info {
+        @apply flex items-center gap-3 px-2 py-1.5 rounded-lg text-left no-underline
+               transition-all duration-150 cursor-pointer hover:bg-slate-50;
+    }
+    .sigap-sidebar__user-info--active { @apply bg-sigap-50; }
     .sigap-sidebar__avatar { @apply sigap-avatar; }
     .sigap-sidebar__user-detail { @apply flex flex-col min-w-0; }
     .sigap-sidebar__user-name { @apply text-sm font-semibold text-slate-800 truncate; }
@@ -444,6 +454,10 @@
                focus:outline-none focus:ring-2 focus:ring-sigap-500/30 focus:border-sigap-500 focus:bg-white;
     }
     .sigap-topbar__user { @apply hidden sm:block text-sm font-medium text-slate-700; }
+    .sigap-topbar__user-link {
+        @apply flex items-center gap-3 no-underline rounded-lg px-2 py-1 -mr-2
+               transition-colors duration-150 hover:bg-slate-50;
+    }
 
     .sigap-app-content { @apply flex-1 flex flex-col min-w-0; }
 

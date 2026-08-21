@@ -5,7 +5,12 @@
 <section id="sigap-profile" class="sigap-page">
     <div class="sigap-page__header">
         <div class="flex items-center gap-4">
-            <span class="sigap-avatar !w-14 !h-14 !text-xl">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
+            @if ($user->avatar_url)
+                <img src="{{ $user->avatar_url }}" alt="Foto profil {{ $user->name }}"
+                     class="sigap-avatar !w-14 !h-14 sigap-avatar__img">
+            @else
+                <span class="sigap-avatar !w-14 !h-14 !text-xl">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
+            @endif
             <div>
                 <h1 class="sigap-page__title">{{ $user->name }}</h1>
                 <p class="sigap-page__subtitle">{{ $user->email }}</p>
