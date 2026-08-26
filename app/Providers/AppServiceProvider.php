@@ -8,6 +8,7 @@ use App\Observers\CommentObserver;
 use App\Observers\TicketObserver;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,5 +27,8 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('role', function (string $role) {
             return auth()->check() && auth()->user()->role === $role;
         });
+        if (env('APP_ENV') !== 'local') {
+        URL::forceScheme('https');
+        }
     }
 }
