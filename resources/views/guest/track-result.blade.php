@@ -22,26 +22,26 @@
 
     <div class="sigap-track-result__grid">
         <div class="sigap-track-result__detail" id="sigap-guest-track-result__detail">
-            <h2 class="text-lg font-semibold text-slate-900">Detail Laporan</h2>
-            <div class="sigap-detail-grid">
-                <div class="sigap-detail-field">
-                    <span class="sigap-detail-field__label">Departemen</span>
-                    <span class="sigap-detail-field__value">{{ $ticket->departemen->nama ?? '-' }}</span>
+            <h2 class="text-lg font-semibold text-slate-900 mb-4">Detail Laporan</h2>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div class="flex flex-col gap-1">
+                    <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Departemen</span>
+                    <span class="text-sm font-medium text-slate-800 break-words">{{ $ticket->departemen->nama ?? '-' }}</span>
                 </div>
-                <div class="sigap-detail-field">
-                    <span class="sigap-detail-field__label">Kategori</span>
-                    <span class="sigap-detail-field__value">{{ $ticket->kategori->nama ?? '-' }}</span>
+                <div class="flex flex-col gap-1">
+                    <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Kategori</span>
+                    <span class="text-sm font-medium text-slate-800 break-words">{{ $ticket->kategori->nama ?? '-' }}</span>
                 </div>
-                <div class="sigap-detail-field">
-                    <span class="sigap-detail-field__label">Dibuat</span>
-                    <span class="sigap-detail-field__value">{{ $ticket->created_at->format('d M Y, H:i') }}</span>
+                <div class="flex flex-col gap-1">
+                    <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Dibuat</span>
+                    <span class="text-sm font-medium text-slate-800 break-words">{{ $ticket->created_at->format('d M Y, H:i') }}</span>
                 </div>
-                <div class="sigap-detail-field">
-                    <span class="sigap-detail-field__label">Target SLA</span>
-                    <span class="sigap-detail-field__value">{{ $ticket->sla_target_at?->format('d M Y, H:i') ?? '-' }}</span>
+                <div class="flex flex-col gap-1">
+                    <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Target SLA</span>
+                    <span class="text-sm font-medium text-slate-800 break-words">{{ $ticket->sla_target_at?->format('d M Y, H:i') ?? '-' }}</span>
                 </div>
             </div>
-            <div class="sigap-divider"></div>
+            <div class="border-t border-slate-200 my-4"></div>
             <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-line">{{ $ticket->deskripsi }}</p>
         </div>
 
