@@ -13,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        $this->app->bind('db.connector.pgsql', function () {
+        return new \App\Database\NeonPostgresConnector;
+        });
     }
 
     public function boot(): void
