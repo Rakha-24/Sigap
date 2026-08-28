@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AnalyticsController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\MasterDataController;
 use App\Http\Controllers\Admin\TicketAdminController;
@@ -70,6 +71,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // ADMIN
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
         Route::get('/tickets', [TicketAdminController::class, 'index'])->name('tickets.index');
         Route::get('/analitik', [AnalyticsController::class, 'index'])->name('analytics');
         Route::get('/analitik/export', [AnalyticsController::class, 'export'])->name('analytics.export');

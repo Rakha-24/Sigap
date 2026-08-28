@@ -7,7 +7,7 @@ class DashboardController extends Controller
     public function index()
     {
         return match (auth()->user()->role) {
-            'admin' => redirect()->route('admin.analytics'),
+            'admin' => redirect()->route('admin.dashboard'),
             'agent' => redirect()->route('agent.queue'),
             default => view('user.dashboard', [
                 'tickets' => auth()->user()->ticketsSebagaiPelapor()->latest()->take(10)->get(),
