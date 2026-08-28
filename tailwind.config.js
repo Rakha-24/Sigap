@@ -4,6 +4,16 @@ export default {
         './resources/views/**/*.blade.php',
         './resources/js/**/*.js',
     ],
+    // Class komponen sigap-timeline__dot--* dan sigap-badge--* dibentuk dinamis
+    // (mis. {{ $ticket->status }}) sehingga tidak terdeteksi oleh scanner
+    // konten. Safelist ini memastikan utility warna/layout-nya tetap di-generate
+    // pada build produksi; tanpa ini dot timeline menjadi abu-abu & badge tidak
+    // berwarna.
+    safelist: [
+        {
+            pattern: /^(sigap-timeline__dot|sigap-badge)--/,
+        },
+    ],
     theme: {
         extend: {
             fontFamily: {
