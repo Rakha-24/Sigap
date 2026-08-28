@@ -23,7 +23,7 @@
     <div class="sigap-track-result__grid">
         <div class="sigap-track-result__detail" id="sigap-guest-track-result__detail">
             <h2 class="text-lg font-semibold text-slate-900 mb-4">Detail Laporan</h2>
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div class="grid grid-cols-2 gap-4 sm:gap-6">
                 <div class="flex flex-col gap-1">
                     <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Departemen</span>
                     <span class="text-sm font-medium text-slate-800 break-words">{{ $ticket->departemen->nama ?? '-' }}</span>
