@@ -17,6 +17,9 @@ class TicketEvidence extends Model
 
     protected $casts = [
         'ukuran' => 'integer',
+        // PHP melihat/menulis byte mentah; DB menyimpan base64 (ASCII) agar
+        // binding Postgres/PDO tidak gagal pada byte biner yang bukan UTF8.
+        'data' => \App\Casts\Base64Binary::class,
     ];
 
     public function ticket(): BelongsTo

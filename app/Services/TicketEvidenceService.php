@@ -27,6 +27,9 @@ class TicketEvidenceService
                 'nama_asli' => $file->getClientOriginalName(),
                 'mime'      => $file->getClientMimeType() ?: 'application/octet-stream',
                 'ukuran'    => $file->getSize(),
+                // data disimpan sebagai bytea (PG) / blob (SQLite). Model
+                // meng-cast kolom ini sebagai 'base64' agar transaksi PDO/Postgres
+                // tidak gagal pada byte biner (mis. 0x89) yang bukan UTF8 valid.
                 'data'      => $file->get(),
             ],
         );
