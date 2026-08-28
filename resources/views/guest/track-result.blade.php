@@ -52,7 +52,7 @@
                     <div class="sigap-comment__header">
                         <span class="sigap-comment__avatar">
                         @if ($comment->user?->avatar_url)
-                            <img src="{{ $comment->user->avatar_url }}" alt="" class="sigap-avatar__img">
+                            <img src="{{ $comment->user->avatar_url }}" alt="" class="sigap-avatar__img" loading="lazy" decoding="async">
                         @else
                             {{ strtoupper(substr($comment->user->name ?? 'T', 0, 1)) }}
                         @endif

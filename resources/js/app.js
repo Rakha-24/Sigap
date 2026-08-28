@@ -1,6 +1,4 @@
 import Alpine from 'alpinejs';
-import Cropper from 'cropperjs';
-import 'cropperjs/dist/cropper.css';
 
 window.Alpine = Alpine;
 
@@ -19,9 +17,11 @@ Alpine.data('avatarCropper', () => ({
         }
 
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = async (e) => {
             this.open = true;
-            this.$nextTick(() => {
+            this.$nextTick(async () => {
+                const { default: Cropper } = await import('cropperjs');
+                await import('cropperjs/dist/cropper.css');
                 const img = this.$refs.cropImage;
                 this.cropper?.destroy();
                 img.src = e.target.result;

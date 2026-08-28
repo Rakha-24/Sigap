@@ -8,4 +8,11 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        // Minifikasi & tree-shaking aktif default di Vite; pastikan sourcemap
+        // tidak diproduksi pada build produksi agar payload tetap kecil.
+        sourcemap: false,
+        cssCodeSplit: true,
+        chunkSizeWarningLimit: 1000,
+    },
 });

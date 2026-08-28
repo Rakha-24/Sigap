@@ -4,11 +4,6 @@ export default {
         './resources/views/**/*.blade.php',
         './resources/js/**/*.js',
     ],
-    safelist: [
-        {
-            pattern: /^(sigap-timeline__dot|sigap-badge)--/,
-        },
-    ],
     theme: {
         extend: {
             fontFamily: {
