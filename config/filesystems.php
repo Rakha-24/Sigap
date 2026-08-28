@@ -1,63 +1,5 @@
 <?php
 
-/*
-    ----------------------------------------------------------
-    Perilaku penyimpanan
-    ----------------------------------------------------------
-    Secara lokal (dev/test) aplikasi memakai filesystem lokal.
-    Saat kredensial S3 (AWS_*) terisi, disk `local`, `private`,
-    dan `public` otomatis beralih ke object storage S3-compatible
-    (AWS S3 / Cloudflare R2 / MinIO) — diperlukan karena filesystem
-    lokal bersifat read-only pada deployment serverless (Vercel).
-*/
-
-$useS3 = (bool) (env('AWS_ACCESS_KEY_ID') && env('AWS_SECRET_ACCESS_KEY') && env('AWS_BUCKET'));
-
-// Konfigurasi disk S3-compatible (dipakai untuk disk private & public saat $useS3).
-$s3Disk = [
-    'driver'                  => 's3',
-    'key'                     => env('AWS_ACCESS_KEY_ID'),
-    'secret'                  => env('AWS_SECRET_ACCESS_KEY'),
-    'region'                  => env('AWS_DEFAULT_REGION', 'us-east-1'),
-    'bucket'                  => env('AWS_BUCKET'),
-    'url'                     => env('AWS_URL'),
-    'endpoint'                => env('AWS_ENDPOINT'),
-    'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-    'bucket_endpoint'         => env('AWS_BUCKET_ENDPOINT', false),
-    'throw'                   => false,
-    'report'                  => false,
-];
-
-// Konfigurasi disk local (dev/test), disesuaikan agar sendirinya memakai S3 bila aktif.
-if ($useS3) {
-    $localDisk            = $s3Disk;
-    $privateDisk          = $s3Disk + ['visibility' => 'private'];
-    $publicDisk           = $s3Disk + ['visibility' => 'public'];
-} else {
-    $localDisk = [
-        'driver' => 'local',
-        'root'   => storage_path('app/private'),
-        'serve'  => true,
-        'throw'  => false,
-        'report' => false,
-    ];
-    $privateDisk = [
-        'driver'     => 'local',
-        'root'       => storage_path('app/private'),
-        'visibility' => 'private',
-        'throw'      => false,
-        'report'     => false,
-    ];
-    $publicDisk = [
-        'driver'     => 'local',
-        'root'       => storage_path('app/public'),
-        'url'        => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
-        'visibility' => 'public',
-        'throw'      => false,
-        'report'     => false,
-    ];
-}
-
 return [
 
     /*
@@ -71,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', $useS3 ? 's3' : 'local'),
+    'default' => env('FILESYSTEM_DISK', 'local'),
 
     /*
     |--------------------------------------------------------------------------
@@ -88,13 +30,43 @@ return [
 
     'disks' => [
 
-        'local' => $localDisk,
+        'local' => [
+            'driver' => 'local',
+            'root' => storage_path('app/private'),
+            'serve' => true,
+            'throw' => false,
+            'report' => false,
+        ],
 
-        'private' => $privateDisk,
+        'private' => [
+            'driver' => 'local',
+            'root' => storage_path('app/private'),
+            'visibility' => 'private',
+            'throw' => false,
+            'report' => false,
+        ],
 
-        'public' => $publicDisk,
+        'public' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public'),
+            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
 
-        's3' => $s3Disk + ['visibility' => 'private'],
+        's3' => [
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('AWS_BUCKET'),
+            'url' => env('AWS_URL'),
+            'endpoint' => env('AWS_ENDPOINT'),
+            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'throw' => false,
+            'report' => false,
+        ],
 
     ],
 

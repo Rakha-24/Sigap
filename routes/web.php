@@ -57,6 +57,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Tiket bisa diakses semua role internal (user membuat, agent/admin melihat)
     Route::resource('tickets', TicketController::class)->only(['index', 'create', 'store', 'show']);
+    Route::get('tickets/{ticket}/evidence/{jenis}', [TicketController::class, 'evidence'])
+        ->name('tickets.evidence');
     Route::post('/tickets/{ticket}/comments', [CommentController::class, 'store'])
         ->name('tickets.comments.store');
 

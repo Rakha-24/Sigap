@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Ticket extends Model
 {
@@ -48,6 +49,21 @@ class Ticket extends Model
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class)->orderBy('created_at');
+    }
+
+    public function evidencePelapor(): HasOne
+    {
+        return $this->hasOne(TicketEvidence::class)->where('jenis', 'pelapor');
+    }
+
+    public function evidencePenyelesaian(): HasOne
+    {
+        return $this->hasOne(TicketEvidence::class)->where('jenis', 'penyelesaian');
+    }
+
+    public function evidence(): HasMany
+    {
+        return $this->hasMany(TicketEvidence::class);
     }
 
     public function auditLogs(): HasMany

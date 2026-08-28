@@ -6,10 +6,10 @@ use App\Models\AuditLog;
 use App\Models\Departemen;
 use App\Models\Kategori;
 use App\Models\Ticket;
+use App\Models\TicketEvidence;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class AgentWorkflowTest extends TestCase
@@ -119,8 +119,6 @@ class AgentWorkflowTest extends TestCase
 
     public function test_agent_menyelesaikan_dengan_evidence(): void
     {
-        Storage::fake('private');
-
         $tiket = $this->buatTiket('in_progress');
         $tiket->forceFill(['assigned_agent_id' => $this->agent->id])->save();
 
@@ -136,8 +134,12 @@ class AgentWorkflowTest extends TestCase
         $tiket->refresh();
         $this->assertSame('resolved', $tiket->status);
         $this->assertNotNull($tiket->resolved_at);
-        $this->assertNotNull($tiket->file_evidence_penyelesaian);
-        $this->assertTrue(Storage::disk('private')->exists($tiket->file_evidence_penyelesaian));
+        $this->assertSame('bukti.jpg', $tiket->file_evidence_penyelesaian);
+        $this->assertDatabaseHas('ticket_evidence', [
+            'ticket_id' => $tiket->id,
+            'jenis' => 'penyelesaian',
+            'nama_asli' => 'bukti.jpg',
+        ]);
 
         $this->assertDatabaseHas('audit_logs', [
             'ticket_id' => $tiket->id,
@@ -163,5 +165,31 @@ class AgentWorkflowTest extends TestCase
             ->assertForbidden();
 
         $this->assertSame('in_progress', $tiket->fresh()->status);
+    }
+
+    public function test_evidence_tersimpan_dan_bisa_diunduh_sebagai_bytea(): void
+    {
+        $tiket = $this->buatTiket();
+        $tiket->forceFill([
+            'assigned_agent_id' => $this->agent->id,
+            'file_evidence_penyelesaian' => 'bukti.jpg',
+        ])->save();
+
+        $file = UploadedFile::fake()->image('bukti.jpg', 200, 200);
+        TicketEvidence::create([
+            'ticket_id' => $tiket->id,
+            'jenis' => 'penyelesaian',
+            'nama_asli' => 'bukti.jpg',
+            'mime' => 'image/jpeg',
+            'ukuran' => $file->getSize(),
+            'data' => $file->get(),
+        ]);
+
+        $response = $this->actingAs($this->agent)
+            ->get(route('tickets.evidence', ['ticket' => $tiket, 'jenis' => 'penyelesaian']));
+
+        $response->assertOk();
+        $response->assertHeader('Content-Type', 'image/jpeg');
+        $this->assertSame($file->get(), $response->streamedContent());
     }
 }

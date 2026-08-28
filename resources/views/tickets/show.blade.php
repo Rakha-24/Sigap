@@ -72,14 +72,14 @@
         <div class="sigap-card__header">
             <h2 class="text-lg font-semibold text-slate-900">Deskripsi Masalah</h2>
             @if($ticket->file_evidence_pelapor)
-                <a href="#" class="sigap-btn sigap-btn--sm sigap-btn--secondary"
-                   onclick="event.preventDefault(); alert('Lampiran tersimpan secara privat di sistem.');">
+                <a href="{{ route('tickets.evidence', ['ticket' => $ticket, 'jenis' => 'pelapor']) }}" target="_blank"
+                   rel="noopener" class="sigap-btn sigap-btn--sm sigap-btn--secondary">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                         <polyline points="7 10 12 15 17 10"/>
                         <line x1="12" y1="15" x2="12" y2="3"/>
                     </svg>
-                    Lampiran Pelapor
+                    Lihat Lampiran Pelapor
                 </a>
             @endif
         </div>
@@ -134,6 +134,10 @@
             @endif
             @if($ticket->file_evidence_penyelesaian)
                 <p class="text-xs text-slate-400">Bukti penyelesaian telah dilampirkan oleh agent.</p>
+                <a href="{{ route('tickets.evidence', ['ticket' => $ticket, 'jenis' => 'penyelesaian']) }}" target="_blank"
+                   rel="noopener" class="sigap-btn sigap-btn--sm sigap-btn--secondary mt-2">
+                    Lihat Bukti Penanganan
+                </a>
             @endif
         </div>
     @endif
