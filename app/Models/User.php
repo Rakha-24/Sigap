@@ -42,7 +42,13 @@ class User extends Authenticatable
     /** URL foto profil yang bisa diakses publik (null bila belum mengunggah). */
     public function getAvatarUrlAttribute(): ?string
     {
-        return $this->avatar ? asset('storage/' . $this->avatar) : null;
+        if (! $this->avatar) {
+            return null;
+        }
+
+        // Mendukung backend lokal (APP_URL/storage/...) maupun S3-compatible
+        // (URL bucket publik / AWS_URL) sesuai disk publik yang aktif di environment.
+        return Storage::disk('public')->url($this->avatar);
     }
 
     /** Hapus berkas foto profil lama dari disk publik bila ada. */
