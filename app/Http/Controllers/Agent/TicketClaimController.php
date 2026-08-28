@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Agent;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ticket;
-use Illuminate\Support\Facades\DB;
 
 class TicketClaimController extends Controller
 {
@@ -25,13 +24,14 @@ class TicketClaimController extends Controller
             return back()->with('error', 'Tiket ini baru saja diambil oleh agent lain.');
         }
 
-        DB::transaction(function () use ($ticket, $agent) {
-            $ticket->assigned_agent_id = $agent->id;
-            if ($ticket->status === 'open') {
-                $ticket->status = 'in_progress';
-            }
-            $ticket->save(); // TicketObserver mencatat perubahan status ke audit_logs otomatis
-        });
+        // Hindari blok transaksi eksplisit (DB::transaction) multi-pernyataan karena
+        // Neon/PgBouncer transaction-mode meng-abort transaksi panjang → SQLSTATE 25P02.
+        // Operasi ini hanya satu UPDATE; observer audit-log menulis statement sendiri.
+        $ticket->assigned_agent_id = $agent->id;
+        if ($ticket->status === 'open') {
+            $ticket->status = 'in_progress';
+        }
+        $ticket->save(); // TicketObserver mencatat perubahan status ke audit_logs otomatis
 
         return redirect()
             ->route('tickets.show', $ticket)

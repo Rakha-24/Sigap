@@ -10,7 +10,6 @@ use App\Models\Ticket;
 use App\Services\SlaCalculator;
 use App\Services\TicketNumberGenerator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class GuestTicketController extends Controller
@@ -32,27 +31,30 @@ class GuestTicketController extends Controller
     {
         $kategori = Kategori::findOrFail($request->kategori_id);
 
-        $ticket = DB::transaction(function () use ($request, $kategori) {
-            $path = $request->hasFile('evidence')
-                ? $request->file('evidence')->store('evidence/pelapor', 'private')
-                : null;
+        // Simpan berkas bukti SEBELUM INSERT. I/O file tidak perlu dibungkus transaksi.
+        $path = $request->hasFile('evidence')
+            ? $request->file('evidence')->store('evidence/pelapor', 'private')
+            : null;
 
-            return Ticket::create([
-                'nomor_tiket' => $this->numberGenerator->generate(),
-                'departemen_id' => $request->departemen_id,
-                'kategori_id' => $request->kategori_id,
-                'nama_guest' => $request->nama_guest,
-                'kontak_guest' => $request->kontak_guest,
-                'tracking_token' => Str::random(40),
-                'judul' => $request->judul,
-                'deskripsi' => $request->deskripsi,
-                'prioritas' => $request->prioritas,
-                'status' => 'open',
-                'file_evidence_pelapor' => $path,
-                'sla_target_at' => $this->slaCalculator->hitung($kategori, $request->prioritas),
-                'ip_pelapor' => $request->ip(),
-            ]);
-        });
+        // WAJIB: Hindari blok transaksi eksplisit (DB::transaction) multi-pernyataan.
+        // Neon dengan koneksi pooler (PgBouncer transaction mode) meng-abort transaksi
+        // yang sedang berjalan → SQLSTATE 25P02 "current transaction is aborted".
+        // Karena hanya ada SATU operasi tulis (INSERT), pakai auto-commit per-pernyataan.
+        $ticket = Ticket::create([
+            'nomor_tiket' => $this->numberGenerator->generate(),
+            'departemen_id' => $request->departemen_id,
+            'kategori_id' => $request->kategori_id,
+            'nama_guest' => $request->nama_guest,
+            'kontak_guest' => $request->kontak_guest,
+            'tracking_token' => Str::random(40),
+            'judul' => $request->judul,
+            'deskripsi' => $request->deskripsi,
+            'prioritas' => $request->prioritas,
+            'status' => 'open',
+            'file_evidence_pelapor' => $path,
+            'sla_target_at' => $this->slaCalculator->hitung($kategori, $request->prioritas),
+            'ip_pelapor' => $request->ip(),
+        ]);
 
         return redirect()
             ->route('guest.track.show', $ticket->nomor_tiket)
