@@ -34,40 +34,47 @@
     input[type="checkbox"], input[type="radio"] {
         @apply accent-sigap-600;
     }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+    }
 }
 
 @layer components {
     /* ============ BUTTONS ============ */
     .sigap-btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5
-               text-sm font-semibold transition-all duration-200 cursor-pointer border
-               focus:outline-none focus:ring-2 focus:ring-offset-2;
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5
+               text-sm font-semibold transition-colors duration-150 cursor-pointer border
+               focus:outline-none focus-visible:ring-2 focus-visible:ring-sigap-500/40 focus-visible:ring-offset-2;
     }
     .sigap-btn--primary {
-        @apply bg-sigap-600 text-white border-sigap-600 shadow-sm
-               hover:bg-sigap-700 hover:border-sigap-700 hover:shadow-md
-               hover:-translate-y-0.5 focus:ring-sigap-500;
+        @apply bg-sigap-600 text-white border-sigap-600 shadow-sigap-card
+               hover:bg-sigap-700 hover:border-sigap-700 active:bg-sigap-800;
     }
     .sigap-btn--secondary {
-        @apply bg-white text-slate-700 border-slate-200 shadow-sm
-               hover:bg-slate-50 hover:border-slate-300 hover:shadow-md
-               hover:-translate-y-0.5 focus:ring-slate-400;
+        @apply bg-white text-slate-700 border-slate-200 shadow-sigap-card
+               hover:bg-slate-50 hover:border-slate-300 active:bg-slate-100;
     }
     .sigap-btn--danger {
-        @apply bg-red-600 text-white border-red-600 shadow-sm
-               hover:bg-red-700 hover:border-red-700 hover:shadow-md
-               hover:-translate-y-0.5 focus:ring-red-500;
+        @apply bg-red-600 text-white border-red-600 shadow-sigap-card
+               hover:bg-red-700 hover:border-red-700 active:bg-red-800;
     }
     .sigap-btn--sm {
         @apply px-3 py-1.5 text-xs rounded-md gap-1.5;
     }
     .sigap-btn--ghost {
         @apply bg-transparent text-slate-500 border-transparent
-               hover:bg-slate-100 hover:text-slate-700 hover:-translate-y-0;
+               hover:bg-slate-100 hover:text-slate-700 active:bg-slate-200;
     }
     .sigap-icon-btn {
-        @apply inline-flex items-center justify-center w-8 h-8 rounded-lg text-slate-400
-               transition-all duration-150 hover:bg-slate-100 hover:text-slate-700;
+        @apply inline-flex items-center justify-center w-9 h-9 rounded-lg text-slate-400
+               transition-colors duration-150 hover:bg-slate-100 hover:text-slate-700
+               focus:outline-none focus-visible:ring-2 focus-visible:ring-sigap-500/40 cursor-pointer;
     }
 
     /* ============ FORMS ============ */
@@ -75,14 +82,14 @@
     .sigap-form__group { @apply flex flex-col gap-1.5; }
     .sigap-form__label { @apply text-sm font-medium text-slate-700; }
     .sigap-form__label-row { @apply flex items-center justify-between; }
-    .sigap-form__hint { @apply text-xs text-slate-400; }
+    .sigap-form__hint { @apply text-xs text-slate-500; }
     .sigap-form__link { @apply text-sm font-medium text-sigap-600 hover:text-sigap-700 transition-colors; }
     .sigap-form__input,
     .sigap-form__select,
     .sigap-form__textarea {
         @apply w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800
-               placeholder:text-slate-400 shadow-sm transition-all duration-200
-               focus:outline-none focus:ring-2 focus:ring-sigap-500/30 focus:border-sigap-500;
+               placeholder:text-slate-400 transition-colors duration-150
+               focus:outline-none focus:border-sigap-500 focus:ring-2 focus:ring-sigap-500/20;
     }
     .sigap-form__password-wrap {
         @apply relative;
@@ -92,74 +99,87 @@
                transition-colors cursor-pointer flex items-center;
     }
     .sigap-form__file {
-        @apply w-full rounded-lg border-2 border-dashed border-slate-200 bg-slate-50 px-4 py-6 text-sm text-slate-500
-               transition-colors hover:border-sigap-200 hover:bg-sigap-50/30 cursor-pointer;
+        @apply w-full rounded-lg border-2 border-dashed border-slate-200 bg-slate-50/50 px-4 py-6 text-sm text-slate-500
+               transition-colors hover:border-sigap-300 hover:bg-sigap-50/40 cursor-pointer;
+    }
+    .sigap-form__dropzone {
+        @apply w-full rounded-xl border-2 border-dashed border-slate-200 bg-slate-50/60 px-6 py-10 text-center text-sm text-slate-500
+               transition-colors cursor-pointer outline-none select-none;
+    }
+    .sigap-form__dropzone:hover,
+    .sigap-form__dropzone:focus-visible {
+        @apply border-sigap-300 bg-sigap-50/40 cursor-pointer;
+    }
+    .sigap-form__dropzone--active {
+        @apply border-sigap-500 bg-sigap-50 ring-4 ring-sigap-500/10;
+    }
+    .sigap-form__file-chip {
+        @apply w-full sm:w-auto text-sm;
     }
     .sigap-form__error { @apply text-xs font-medium text-red-600; }
     .sigap-form__checkbox-row { @apply flex items-center gap-2 text-sm text-slate-600; }
     .sigap-form__checkbox-row input { @apply w-4 h-4 rounded border-slate-300; }
     .sigap-form__submit {
-        @apply sigap-btn bg-sigap-600 text-white border-sigap-600 shadow-sm
-               hover:bg-sigap-700 hover:border-sigap-700 hover:shadow-md
-               hover:-translate-y-0.5 w-full mt-1 focus:ring-sigap-500;
+        @apply sigap-btn sigap-btn--primary w-full mt-1;
     }
 
     /* ============ ALERTS ============ */
     .sigap-alert {
-        @apply mx-auto mb-4 max-w-3xl rounded-lg px-4 py-3 text-sm font-medium;
+        @apply mx-auto mb-4 max-w-3xl rounded-lg px-4 py-3 text-sm font-medium
+               border flex items-center gap-2;
     }
-    .sigap-alert--success { @apply bg-emerald-50 text-emerald-700 border border-emerald-200; }
-    .sigap-alert--error   { @apply bg-red-50 text-red-700 border border-red-200; }
+    .sigap-alert--success { @apply bg-emerald-50 text-emerald-700 border-emerald-200; }
+    .sigap-alert--error   { @apply bg-red-50 text-red-700 border-red-200; }
 
     /* ============ BADGES: status tiket ============ */
     .sigap-badge {
-        @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold whitespace-nowrap;
+        @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold whitespace-nowrap border;
     }
     .sigap-badge::before {
         content: '';
         @apply w-1.5 h-1.5 rounded-full bg-current opacity-70;
     }
-    .sigap-badge--open         { @apply bg-sky-100 text-sky-700; }
-    .sigap-badge--in_progress  { @apply bg-amber-100 text-amber-700; }
-    .sigap-badge--resolved     { @apply bg-emerald-100 text-emerald-700; }
-    .sigap-badge--closed       { @apply bg-slate-200 text-slate-600; }
+    .sigap-badge--open         { @apply bg-sky-50 text-sky-700 border-sky-200; }
+    .sigap-badge--in_progress  { @apply bg-amber-50 text-amber-700 border-amber-200; }
+    .sigap-badge--resolved     { @apply bg-emerald-50 text-emerald-700 border-emerald-200; }
+    .sigap-badge--closed       { @apply bg-slate-100 text-slate-600 border-slate-200; }
+    .sigap-badge--rejected     { @apply bg-red-50 text-red-700 border-red-200; }
     /* Prioritas */
-    .sigap-badge--priority-tinggi { @apply bg-red-50 text-red-700 ring-1 ring-red-200; }
-    .sigap-badge--priority-sedang { @apply bg-amber-50 text-amber-700 ring-1 ring-amber-200; }
-    .sigap-badge--priority-rendah { @apply bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200; }
+    .sigap-badge--priority-tinggi { @apply bg-red-50 text-red-700 border-red-200; }
+    .sigap-badge--priority-sedang { @apply bg-amber-50 text-amber-700 border-amber-200; }
+    .sigap-badge--priority-rendah { @apply bg-emerald-50 text-emerald-700 border-emerald-200; }
     /* Role pengguna */
-    .sigap-badge--role-admin { @apply bg-violet-50 text-violet-700 ring-1 ring-violet-200; }
-    .sigap-badge--role-agent { @apply bg-sky-50 text-sky-700 ring-1 ring-sky-200; }
-    .sigap-badge--role-user  { @apply bg-slate-100 text-slate-600 ring-1 ring-slate-200; }
+    .sigap-badge--role-admin { @apply bg-violet-50 text-violet-700 border-violet-200; }
+    .sigap-badge--role-agent { @apply bg-sky-50 text-sky-700 border-sky-200; }
+    .sigap-badge--role-user  { @apply bg-slate-100 text-slate-600 border-slate-200; }
     /* Status akun aktif/nonaktif */
-    .sigap-badge--active   { @apply bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200; }
-    .sigap-badge--inactive { @apply bg-red-50 text-red-700 ring-1 ring-red-200; }
+    .sigap-badge--active   { @apply bg-emerald-50 text-emerald-700 border-emerald-200; }
+    .sigap-badge--inactive { @apply bg-red-50 text-red-700 border-red-200; }
 
     /* ============ PAGE / CARD LAYOUT (area internal) ============ */
-    .sigap-page { @apply p-6 md:p-8 max-w-6xl mx-auto flex flex-col gap-6; }
+    .sigap-page { @apply p-6 md:p-8 max-w-7xl mx-auto flex flex-col gap-6 min-w-0 w-full; }
     .sigap-page__header { @apply flex items-start justify-between gap-4 flex-wrap; }
-    .sigap-page__title { @apply text-2xl font-bold text-slate-900; }
+    .sigap-page__title { @apply text-xl md:text-2xl font-bold text-slate-900 tracking-tight; }
     .sigap-page__subtitle { @apply text-sm text-slate-500 mt-1; }
     .sigap-page__actions { @apply flex items-center gap-2; }
 
     .sigap-card {
-        @apply bg-white rounded-xl border border-slate-200 shadow-sm p-5 flex flex-col gap-4
-               transition-shadow duration-200 hover:shadow-md;
+        @apply bg-white rounded-xl border border-slate-200 shadow-sigap-card p-6 flex flex-col gap-4 min-w-0;
     }
     .sigap-card__header { @apply flex items-center justify-between gap-3 flex-wrap; }
 
-    .sigap-divider { @apply border-t border-slate-100; }
+    .sigap-divider { @apply border-t border-slate-200; }
 
     /* ============ TABLE ============ */
     .sigap-table-wrapper {
-        @apply bg-white rounded-xl border border-slate-200 shadow-sm overflow-x-auto;
+        @apply bg-white rounded-xl border border-slate-200 shadow-sigap-card overflow-x-auto min-w-0;
     }
     .sigap-table { @apply w-full text-sm text-left; }
-    .sigap-table thead { @apply bg-slate-50 text-slate-500 text-xs uppercase tracking-wide; }
-    .sigap-table th { @apply px-4 py-3 border-b border-slate-100 font-semibold; }
-    .sigap-table td { @apply px-4 py-3 border-b border-slate-100 align-middle; }
+    .sigap-table thead { @apply bg-slate-50/80 text-slate-500 text-xs uppercase tracking-wider; }
+    .sigap-table th { @apply px-4 py-3 border-b border-slate-200 font-semibold whitespace-nowrap; }
+    .sigap-table td { @apply px-4 py-3.5 border-b border-slate-100 align-middle; }
     .sigap-table tbody tr { @apply transition-colors duration-150; }
-    .sigap-table tbody tr:hover { @apply bg-slate-50; }
+    .sigap-table tbody tr:hover { @apply bg-slate-50/70; }
     .sigap-table tbody tr:last-child td { @apply border-b-0; }
     .sigap-table__actions { @apply flex items-center gap-1.5; }
     .sigap-table__actions .sigap-icon-btn { @apply w-7 h-7 rounded-md; }
@@ -168,7 +188,7 @@
     .sigap-tabs { @apply flex items-center gap-1 border-b border-slate-200 overflow-x-auto; }
     .sigap-tabs__item {
         @apply px-4 py-2.5 text-sm font-medium text-slate-500 border-b-2 border-transparent
-               hover:text-slate-700 transition-colors duration-200 whitespace-nowrap;
+               -mb-px hover:text-slate-700 hover:border-slate-300 transition-colors duration-150 whitespace-nowrap;
     }
     .sigap-tabs__item--active { @apply text-sigap-600 border-sigap-600; }
 
@@ -178,147 +198,188 @@
     .sigap-tabbar { @apply flex items-center gap-2 flex-wrap border-b border-slate-200 pb-0; }
     .sigap-tabbar__tab {
         @apply inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-500
-               border-b-2 border-transparent hover:text-sigap-600 hover:border-sigap-200 transition-colors;
+               border-b-2 border-transparent -mb-px hover:text-sigap-600 hover:border-sigap-200 transition-colors;
     }
     .sigap-tabbar__tab--active { @apply text-sigap-600 border-sigap-600 font-semibold; }
 
     /* ============ AVATAR ============ */
     .sigap-avatar {
         @apply inline-flex items-center justify-center w-9 h-9 rounded-full
-               bg-sigap-100 text-sigap-700 text-sm font-bold shrink-0;
+               bg-sigap-50 text-sigap-700 text-sm font-bold shrink-0 ring-1 ring-sigap-100;
     }
     .sigap-avatar--sm { @apply w-8 h-8 text-xs; }
     .sigap-avatar__img { @apply w-full h-full rounded-full object-cover; }
 
     /* ============ GUEST: NAVBAR ============ */
     .sigap-navbar {
-        @apply flex items-center justify-between px-6 md:px-12 py-4 bg-white/90 backdrop-blur-md
-               border-b border-slate-100 sticky top-0 z-20;
+        @apply sticky top-0 z-20 bg-white/85 backdrop-blur-md border-b border-slate-200;
     }
-    .sigap-navbar__brand { @apply flex items-center gap-2.5 text-xl font-extrabold text-sigap-700; }
+    .sigap-navbar__container {
+        @apply max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16;
+    }
+    .sigap-navbar__brand { @apply flex items-center gap-2.5 text-base font-extrabold text-slate-900 tracking-tight; }
     .sigap-navbar__brand-icon {
-        @apply w-9 h-9 rounded-lg bg-sigap-600 text-white flex items-center justify-center shadow-sm;
+        @apply w-8 h-8 rounded-lg bg-sigap-600 text-white flex items-center justify-center shadow-sigap-card;
     }
-    .sigap-navbar__nav { @apply flex items-center gap-1 md:gap-6; }
+    .sigap-navbar__nav { @apply hidden md:flex items-center gap-1; }
     .sigap-navbar__link {
-        @apply px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-sigap-700 hover:bg-sigap-50
-               transition-colors hidden sm:block;
+        @apply px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100
+               transition-colors duration-150;
     }
     .sigap-navbar__link--cta {
-        @apply bg-sigap-600 text-white px-4 py-2 rounded-lg hover:bg-sigap-700 transition-all shadow-sm
-               block !important;
+        @apply inline-flex items-center gap-2 text-white px-4 py-2 rounded-lg font-semibold text-sm
+               transition-colors duration-150 cursor-pointer;
+    }
+    .sigap-navbar__mobile {
+        @apply absolute inset-x-0 top-full border-t border-slate-200 bg-white shadow-sigap-pop
+               md:hidden flex flex-col p-3 gap-1;
     }
 
     /* ============ GUEST: HERO ============ */
     .sigap-hero {
-        @apply relative grid md:grid-cols-2 gap-10 items-center px-6 md:px-12 py-16 md:py-20 max-w-6xl mx-auto;
+        @apply relative overflow-hidden;
     }
-    .sigap-hero__title { @apply text-4xl md:text-5xl font-extrabold text-slate-900 leading-[1.1]; }
-    .sigap-hero__title-accent { @apply bg-gradient-to-r from-sigap-600 to-sigap-500 bg-clip-text text-transparent; }
-    .sigap-hero__desc { @apply mt-5 text-slate-500 text-lg max-w-md leading-relaxed; }
-    .sigap-hero__actions { @apply mt-8 flex items-center gap-3 flex-wrap; }
-    .sigap-hero__illustration { @apply hidden md:block h-80; }
+    .sigap-hero__container {
+        @apply max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center px-4 sm:px-6 lg:px-8 py-16 md:py-24;
+    }
     .sigap-hero__badge {
         @apply inline-flex items-center gap-2 rounded-full bg-sigap-50 ring-1 ring-sigap-100 px-3.5 py-1.5
                text-xs font-semibold text-sigap-700 mb-5;
     }
-    .sigap-hero__trust { @apply flex items-center gap-6 mt-8 text-xs text-slate-400; }
-    .sigap-hero__trust-item { @apply flex flex-col; }
-    .sigap-hero__trust-value { @apply text-xl font-extrabold text-slate-900; }
+    .sigap-hero__title { @apply text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 leading-[1.12] tracking-tight; }
+    .sigap-hero__title-accent { @apply text-sigap-600; }
+    .sigap-hero__desc { @apply mt-5 text-slate-600 text-base md:text-lg max-w-xl leading-relaxed; }
+    .sigap-hero__actions { @apply mt-8 flex items-center gap-3 flex-wrap; }
+    .sigap-hero__trust { @apply grid grid-cols-3 gap-6 mt-10 pt-8 border-t border-slate-200 max-w-xl; }
+    .sigap-hero__trust-item { @apply flex flex-col gap-0.5; }
+    .sigap-hero__trust-value { @apply text-xl md:text-2xl font-extrabold text-slate-900 tracking-tight; }
+    .sigap-hero__trust-label { @apply text-xs text-slate-500 font-medium; }
 
     /* ============ GUEST: STATS BAND ============ */
     .sigap-stats-band {
-        @apply max-w-6xl mx-auto px-6 md:px-12;
+        @apply px-4 sm:px-6 lg:px-8 pb-4;
     }
     .sigap-stats-band__inner {
-        @apply grid grid-cols-2 md:grid-cols-4 gap-6 rounded-2xl bg-gradient-to-r from-sigap-700 via-sigap-600 to-sigap-500
-               px-8 py-8 text-white shadow-lg shadow-sigap-600/20;
+        @apply max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-px overflow-hidden rounded-2xl
+               bg-slate-200 border border-slate-200 shadow-sigap-card;
     }
-    .sigap-stats-band__item { @apply flex flex-col items-center text-center gap-0.5; }
-    .sigap-stats-band__value { @apply text-3xl font-extrabold; }
-    .sigap-stats-band__label { @apply text-sm text-white/70; }
+    .sigap-stats-band__item { @apply flex flex-col gap-1 bg-white px-6 py-8; }
+    .sigap-stats-band__value { @apply text-2xl md:text-3xl font-bold text-slate-900 tracking-tight; }
+    .sigap-stats-band__label { @apply text-xs md:text-sm text-slate-500 font-medium; }
 
     /* ============ GUEST: FEATURES ============ */
-    .sigap-features { @apply px-6 md:px-12 py-16 max-w-6xl mx-auto text-center; }
-    .sigap-features__title { @apply text-3xl font-bold text-slate-900; }
-    .sigap-features__subtitle { @apply text-slate-500 mt-3 max-w-2xl mx-auto; }
-    .sigap-features__grid { @apply grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-12 text-left; }
+    .sigap-features { @apply px-4 sm:px-6 lg:px-8 py-16 md:py-20; }
+    .sigap-features__inner { @apply max-w-7xl mx-auto text-center; }
+    .sigap-features__eyebrow {
+        @apply inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-slate-500 mb-4;
+    }
+    .sigap-features__title { @apply text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight; }
+    .sigap-features__subtitle { @apply text-slate-500 mt-3 max-w-2xl mx-auto text-base; }
+    .sigap-features__grid { @apply grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-14 text-left; }
     .sigap-feature-card {
-        @apply bg-white border border-slate-100 rounded-xl shadow-sm p-6
-               transition-all duration-200 hover:shadow-lg hover:border-sigap-100 hover:-translate-y-1;
+        @apply bg-white border border-slate-200 rounded-xl p-6 shadow-sigap-card
+               transition-colors duration-150 hover:border-sigap-200 hover:shadow-none;
     }
     .sigap-feature-card__icon {
-        @apply w-11 h-11 rounded-xl bg-sigap-50 flex items-center justify-center text-sigap-600 mb-4
-               ring-1 ring-sigap-100 transition-transform duration-200;
+        @apply w-11 h-11 rounded-lg bg-sigap-50 ring-1 ring-sigap-100 flex items-center justify-center text-sigap-600 mb-4;
     }
-    .sigap-feature-card:hover .sigap-feature-card__icon {
-        @apply bg-sigap-600 text-white ring-sigap-600;
-    }
+    .sigap-feature-card__icon svg { @apply text-sigap-600; }
     .sigap-feature-card__title { @apply font-semibold text-slate-900; }
     .sigap-feature-card__desc { @apply text-sm text-slate-500 mt-2 leading-relaxed; }
 
+    /* ============ GUEST: WORKFLOW ============ */
+    .sigap-workflow { @apply px-4 sm:px-6 lg:px-8 py-8 md:py-12 bg-white border-y border-slate-200; }
+    .sigap-workflow__inner { @apply max-w-7xl mx-auto text-center; }
+    .sigap-workflow__grid { @apply grid md:grid-cols-3 gap-10 mt-14 text-left; }
+    .sigap-workflow__item { @apply relative; }
+    .sigap-workflow__step {
+        @apply inline-flex items-center justify-center w-9 h-9 rounded-full
+               bg-sigap-600 text-white text-sm font-bold shadow-sigap-card mb-4;
+    }
+    .sigap-workflow__title { @apply font-semibold text-slate-900; }
+    .sigap-workflow__desc { @apply text-sm text-slate-500 mt-2 leading-relaxed; }
+
     /* ============ GUEST: CTA BANNER ============ */
     .sigap-cta {
-        @apply px-6 md:px-12 pb-16 max-w-6xl mx-auto;
+        @apply px-4 sm:px-6 lg:px-8 py-16 md:py-20;
     }
     .sigap-cta__inner {
-        @apply relative overflow-hidden rounded-2xl bg-gradient-to-br from-sigap-700 via-sigap-600 to-sigap-500
-               px-8 md:px-12 py-12 text-white text-center;
+        @apply relative overflow-hidden rounded-2xl bg-slate-900
+               px-6 md:px-12 py-12 md:py-16 text-center;
     }
-    .sigap-cta__title { @apply text-2xl md:text-3xl font-extrabold; }
-    .sigap-cta__desc { @apply text-white/75 mt-3 max-w-xl mx-auto; }
-    .sigap-cta__actions { @apply mt-7 flex items-center justify-center gap-3 flex-wrap; }
+    .sigap-cta__inner::before {
+        content: '';
+        @apply absolute inset-0 pointer-events-none opacity-[0.06] bg-[radial-gradient(circle_at_1px_1px,_white_1px,transparent_0)] bg-[length:22px_22px];
+    }
+    .sigap-cta__title { @apply relative text-2xl md:text-3xl font-extrabold text-white tracking-tight; }
+    .sigap-cta__desc { @apply relative text-slate-400 mt-3 max-w-xl mx-auto text-base; }
+    .sigap-cta__actions { @apply relative mt-8 flex items-center justify-center gap-3 flex-wrap; }
     .sigap-cta__btn {
-        @apply inline-flex items-center gap-2 rounded-lg bg-white text-sigap-700 px-6 py-3 text-sm font-bold
-               shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200;
+        @apply inline-flex items-center gap-2 rounded-lg bg-white text-slate-900 px-6 py-3 text-sm font-semibold
+               shadow-sigap-card hover:bg-slate-100 active:bg-slate-200 transition-colors duration-150
+               focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900;
     }
 
-    .sigap-footer { @apply text-center text-sm text-slate-400 py-8 border-t border-slate-100 mt-4; }
+    .sigap-footer { @apply border-t border-slate-200 bg-white; }
+    .sigap-footer__inner { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12; }
+    .sigap-footer__grid { @apply grid md:grid-cols-4 gap-10; }
+    .sigap-footer__brand { @apply flex items-center gap-2.5 text-base font-extrabold text-slate-900 mb-3; }
+    .sigap-footer__desc { @apply text-sm text-slate-500 leading-relaxed max-w-xs; }
+    .sigap-footer__heading { @apply text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4; }
+    .sigap-footer__link {
+        @apply block text-sm text-slate-600 py-1 hover:text-sigap-600 transition-colors duration-150;
+    }
+    .sigap-footer__bottom {
+        @apply border-t border-slate-200 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-400;
+    }
 
     /* ============ GUEST: FORM PAGE (lapor & tracking) ============ */
-    .sigap-form-page { @apply px-6 py-16 max-w-xl mx-auto; }
-    .sigap-form-page__card { @apply sigap-card p-6 md:p-8 !important; }
-    .sigap-form-page__title { @apply text-2xl font-bold text-slate-900 mb-6; }
+    .sigap-form-page { @apply px-4 sm:px-6 py-14 md:py-16 max-w-xl mx-auto; }
+    .sigap-form-page__card { @apply bg-white rounded-xl border border-slate-200 shadow-sigap-card p-6 md:p-8; }
+    .sigap-form-page__title { @apply text-xl md:text-2xl font-bold text-slate-900 tracking-tight leading-tight mb-2; }
+    .sigap-form-page__subtitle { @apply text-sm text-slate-500 mb-6; }
     .sigap-priority-picker { @apply flex gap-2; }
     .sigap-priority-picker__option {
         @apply flex-1 text-center border border-slate-200 rounded-lg py-2 text-sm cursor-pointer font-medium
-               transition-all duration-200
+               transition-colors duration-150
                has-[:checked]:border-sigap-600 has-[:checked]:bg-sigap-50 has-[:checked]:text-sigap-700
-               has-[:checked]:shadow-sm;
+               focus-within:ring-2 focus-within:ring-sigap-500/20;
     }
 
-    .sigap-track-page { @apply px-6 py-16 max-w-lg mx-auto; }
-    .sigap-track-page__title { @apply text-2xl font-bold text-slate-900 mb-2; }
+    .sigap-track-page { @apply px-4 sm:px-6 py-14 md:py-16 max-w-lg mx-auto; }
+    .sigap-track-page__title { @apply text-xl md:text-2xl font-bold text-slate-900 tracking-tight mb-2; }
     .sigap-track-page__subtitle { @apply text-sm text-slate-500 mb-6; }
-    .sigap-track-page__card { @apply sigap-card p-6 md:p-8 !important; }
+    .sigap-track-page__card { @apply bg-white rounded-xl border border-slate-200 shadow-sigap-card p-6 md:p-8; }
     .sigap-track-page__form { @apply flex flex-col sm:flex-row gap-2; }
     .sigap-track-page__form .sigap-form__submit { @apply sm:w-auto sm:px-6; }
 
-    .sigap-track-result { @apply px-6 py-12 max-w-3xl mx-auto flex flex-col gap-8; }
+    .sigap-track-result { @apply px-4 sm:px-6 py-12 max-w-3xl mx-auto flex flex-col gap-8; }
     .sigap-track-result__header { @apply flex items-center gap-3 flex-wrap; }
-    .sigap-track-result__title { @apply text-2xl font-bold text-slate-900; }
+    .sigap-track-result__title { @apply text-xl md:text-2xl font-bold text-slate-900 tracking-tight; }
     .sigap-track-result__nomor { @apply text-sm font-mono text-slate-400; }
-    .sigap-track-result__detail { @apply sigap-card; }
-    .sigap-track-result__timeline { @apply sigap-card; }
-    .sigap-track-result__comments { @apply sigap-card; }
+    .sigap-track-result__detail,
+    .sigap-track-result__timeline,
+    .sigap-track-result__comments {
+        @apply bg-white rounded-xl border border-slate-200 shadow-sigap-card p-6 flex flex-col gap-4;
+    }
     .sigap-track-result__grid { @apply grid md:grid-cols-2 gap-4; }
 
     /* ============ TIMELINE ============ */
-    .sigap-timeline { @apply flex flex-col border-l-2 border-slate-200 pl-7 ml-2; }
-    .sigap-timeline__item { @apply relative pb-7 last:pb-0; }
+    .sigap-timeline { @apply flex flex-col gap-6 relative before:absolute before:left-[7px] before:top-1 before:bottom-1 before:w-px before:bg-slate-200; }
+    .sigap-timeline__item { @apply relative flex flex-col gap-1 pl-8; }
     .sigap-timeline__dot {
-        @apply absolute -left-[2.31rem] top-1 w-4 h-4 rounded-full border-2 border-white bg-slate-300 ring-4 ring-slate-100;
+        @apply absolute left-0 top-0.5 w-[15px] h-[15px] rounded-full border-2 border-white ring-1 ring-slate-200;
     }
-    .sigap-timeline__dot--ticket_created      { @apply bg-sigap-500 ring-sigap-100; }
-    .sigap-timeline__dot--open                { @apply bg-sky-500 ring-sky-100; }
-    .sigap-timeline__dot--in_progress         { @apply bg-amber-400 ring-amber-100; }
-    .sigap-timeline__dot--resolved            { @apply bg-emerald-500 ring-emerald-100; }
-    .sigap-timeline__dot--rejected            { @apply bg-red-500 ring-red-100; }
+    .sigap-timeline__dot--ticket_created      { @apply bg-sigap-500 ring-sigap-200; }
+    .sigap-timeline__dot--open                { @apply bg-sky-500 ring-sky-200; }
+    .sigap-timeline__dot--in_progress         { @apply bg-amber-400 ring-amber-200; }
+    .sigap-timeline__dot--resolved            { @apply bg-emerald-500 ring-emerald-200; }
+    .sigap-timeline__dot--rejected            { @apply bg-red-500 ring-red-200; }
     .sigap-timeline__dot--closed              { @apply bg-slate-400 ring-slate-200; }
-    .sigap-timeline__dot--comment_added       { @apply bg-sigap-500 ring-sigap-100; }
-    .sigap-timeline__dot--internal_note_added { @apply bg-violet-400 ring-violet-100; }
+    .sigap-timeline__dot--comment_added       { @apply bg-sigap-500 ring-sigap-200; }
+    .sigap-timeline__dot--internal_note_added { @apply bg-violet-400 ring-violet-200; }
     .sigap-timeline__desc { @apply block text-sm font-medium text-slate-800 leading-snug; }
-    .sigap-timeline__meta { @apply mt-1.5 flex flex-wrap items-center gap-x-1.5 text-xs text-slate-400; }
+    .sigap-timeline__meta { @apply flex flex-wrap items-center gap-x-1.5 text-xs text-slate-400; }
 
     /* ============ COMMENTS ============ */
     .sigap-comment { @apply border-b border-slate-100 pb-4 last:border-0 last:pb-0; }
@@ -332,132 +393,128 @@
     .sigap-auth-shell { @apply grid md:grid-cols-2 min-h-screen; }
     .sigap-auth-shell__brand {
         @apply hidden md:flex relative overflow-hidden flex-col justify-center px-12 py-16
-               bg-gradient-to-br from-sigap-700 via-sigap-600 to-sigap-900 text-white;
+               bg-slate-900 text-white;
     }
-    .sigap-auth-shell__pattern { @apply absolute inset-0 opacity-10 pointer-events-none; }
-    .sigap-auth-shell__orb { @apply absolute rounded-full blur-3xl pointer-events-none; }
-    .sigap-auth-shell__orb--top { @apply w-80 h-80 -top-24 -right-16 bg-white/10; }
-    .sigap-auth-shell__orb--bottom { @apply w-96 h-96 -bottom-32 -left-24 bg-sigap-500/20; }
-    .sigap-auth-shell__watermark {
-        @apply absolute -bottom-8 -right-8 w-72 h-72 opacity-[0.06] pointer-events-none;
+    .sigap-auth-shell__pattern { @apply absolute inset-0 opacity-[0.07] pointer-events-none; }
+    .sigap-auth-shell__flow {
+        @apply absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-sigap-600/20 blur-3xl pointer-events-none;
     }
     .sigap-auth-shell__content { @apply relative z-10; }
     .sigap-auth-shell__mark {
         @apply inline-flex items-center justify-center w-12 h-12 rounded-xl
-               bg-white/15 border border-white/20 backdrop-blur-sm mb-6;
+               bg-sigap-600 shadow-sigap-card mb-8;
     }
     .sigap-auth-shell__logo { @apply text-2xl font-extrabold tracking-tight text-white; }
-    .sigap-auth-shell__tagline { @apply text-white/70 text-sm mt-1; }
-    .sigap-auth-shell__headline { @apply text-4xl font-bold mt-10 leading-[1.15] max-w-sm text-white; }
-    .sigap-auth-shell__desc { @apply text-white/70 mt-4 max-w-sm leading-relaxed; }
-    .sigap-auth-shell__stats { @apply flex gap-8 mt-10 pt-6 border-t border-white/10 max-w-sm; }
-    .sigap-auth-shell__stat-value { @apply text-2xl font-extrabold text-white; }
-    .sigap-auth-shell__stat-label { @apply text-xs text-white/60; }
+    .sigap-auth-shell__tagline { @apply text-slate-400 text-sm mt-1; }
+    .sigap-auth-shell__headline { @apply text-4xl font-bold mt-12 leading-[1.15] max-w-sm text-white; }
+    .sigap-auth-shell__desc { @apply text-slate-400 mt-4 max-w-sm leading-relaxed; }
     .sigap-auth-shell__features { @apply flex flex-col gap-3 mt-8; }
-    .sigap-auth-shell__feature { @apply flex items-center gap-2.5 text-sm font-medium text-white/90; }
+    .sigap-auth-shell__feature { @apply flex items-center gap-2.5 text-sm font-medium text-slate-200; }
+    .sigap-auth-shell__stats { @apply flex gap-10 mt-12 pt-6 border-t border-white/10 max-w-sm; }
+    .sigap-auth-shell__stat-value { @apply text-2xl font-extrabold text-white; }
+    .sigap-auth-shell__stat-label { @apply text-xs text-slate-400; }
     .sigap-auth-shell__panel {
         @apply relative flex items-center justify-center px-6 py-16 bg-slate-50;
     }
     .sigap-auth-shell__panel-card {
-        @apply w-full max-w-md bg-white rounded-2xl border border-slate-200 shadow-lg shadow-slate-200/60
+        @apply w-full max-w-md bg-white rounded-2xl border border-slate-200 shadow-sigap-card
                p-8 md:p-10 flex flex-col;
     }
     .sigap-auth-shell__panel-logo {
         @apply flex items-center gap-2 mb-8 md:hidden;
     }
     .sigap-auth-shell__back {
-        @apply inline-flex items-center gap-1.5 text-sm font-medium text-slate-400
-               hover:text-slate-600 transition-colors mb-6 self-start;
+        @apply inline-flex items-center gap-1.5 text-sm font-medium text-slate-500
+               hover:text-slate-700 transition-colors mb-6 self-start;
     }
 
     .sigap-auth-form { @apply w-full flex flex-col; }
-    .sigap-auth-form__title { @apply text-2xl font-bold text-slate-900; }
-    .sigap-auth-form__subtitle { @apply text-sm text-slate-500 mt-1 mb-6; }
+    .sigap-auth-form__title { @apply text-2xl font-bold text-slate-900 tracking-tight; }
+    .sigap-auth-form__subtitle { @apply text-sm text-slate-500 mt-1 mb-7; }
     .sigap-auth-form__footer { @apply text-sm text-slate-500 text-center mt-6; }
     .sigap-auth-form__footer a { @apply text-sigap-600 font-medium hover:text-sigap-700 transition-colors; }
 
     /* ============ INTERNAL APP SHELL (sidebar + topbar) ============ */
     .sigap-app-shell { @apply flex min-h-screen bg-slate-50; }
 
-    /* -- Sidebar -- */
+    /* -- Sidebar (dark navy) -- */
     .sigap-sidebar {
-        @apply fixed md:sticky top-0 z-40 md:z-auto flex flex-col w-64 shrink-0 h-screen bg-white
-               border-r border-slate-200 px-4 py-5 justify-between
-               transition-transform duration-300 -translate-x-full md:translate-x-0;
+        @apply fixed md:sticky top-0 z-40 flex flex-col w-64 shrink-0 h-screen
+               bg-slate-900 border-r border-slate-800 px-3 py-5 justify-between
+               transition-transform duration-200 -translate-x-full md:translate-x-0;
     }
     .sigap-sidebar--open { @apply translate-x-0; }
     .sigap-sidebar__overlay {
-        @apply fixed inset-0 z-30 bg-slate-900/50 backdrop-blur-sm md:hidden transition-opacity duration-300 opacity-0 pointer-events-none;
+        @apply fixed inset-0 z-30 bg-slate-950/60 backdrop-blur-sm md:hidden transition-opacity duration-200 opacity-0 pointer-events-none;
     }
     .sigap-sidebar__overlay--open { @apply opacity-100 pointer-events-auto; }
-    .sigap-sidebar__brand-wrapper { @apply flex items-center gap-2.5 px-3 mb-6; }
+    .sigap-sidebar__brand-wrapper { @apply flex items-center gap-2.5 px-3 mb-7; }
     .sigap-sidebar__brand-icon {
-        @apply w-9 h-9 rounded-lg bg-sigap-600 text-white flex items-center justify-center shadow-sm;
+        @apply w-9 h-9 rounded-lg bg-sigap-600 text-white flex items-center justify-center shadow-sigap-card;
     }
-    .sigap-sidebar__brand { @apply text-xl font-extrabold text-slate-900 tracking-tight; }
-    .sigap-sidebar__close { @apply ml-auto sigap-icon-btn md:hidden; }
-    .sigap-sidebar__nav { @apply flex flex-col gap-0.5 flex-1 overflow-y-auto; }
-    .sigap-sidebar__separator { @apply border-t border-slate-100 my-3; }
+    .sigap-sidebar__brand { @apply text-lg font-extrabold text-white tracking-tight; }
+    .sigap-sidebar__close { @apply ml-auto sigap-icon-btn text-slate-400 hover:text-white hover:bg-white/10 md:hidden; }
+    .sigap-sidebar__nav { @apply flex flex-col gap-0.5 flex-1 overflow-y-auto -mx-1 px-1; }
+    .sigap-sidebar__separator { @apply border-t border-slate-800 my-3; }
     .sigap-sidebar__section-label {
-        @apply px-3 py-1 text-[11px] font-semibold text-slate-400 uppercase tracking-wider;
+        @apply px-3 py-2 text-[11px] font-semibold text-slate-500 uppercase tracking-wider;
     }
     .sigap-sidebar__link {
-        @apply relative flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600
-               transition-all duration-150 hover:bg-slate-50 hover:text-sigap-700;
+        @apply relative flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400
+               transition-colors duration-150 hover:bg-white/5 hover:text-white;
     }
+    .sigap-sidebar__link svg { @apply text-slate-500 transition-colors duration-150 group-hover:text-slate-300; }
     .sigap-sidebar__link--active {
-        @apply bg-sigap-50 text-sigap-700 font-semibold shadow-sm;
+        @apply bg-white/10 text-white font-semibold;
     }
+    .sigap-sidebar__link--active svg { @apply text-sigap-400; }
     .sigap-sidebar__link--active::before {
         content: '';
-        @apply absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 rounded-r-full bg-sigap-600;
+        @apply absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full bg-sigap-400;
     }
     .sigap-sidebar__bottom {
-        @apply flex flex-col gap-3 pt-4 border-t border-slate-100;
+        @apply flex flex-col gap-3 pt-4 border-t border-slate-800 mt-4;
     }
     .sigap-sidebar__user-info {
         @apply flex items-center gap-3 px-2 py-1.5 rounded-lg text-left no-underline
-               transition-all duration-150 cursor-pointer hover:bg-slate-50;
+               transition-colors duration-150 cursor-pointer hover:bg-white/5;
     }
-    .sigap-sidebar__user-info--active { @apply bg-sigap-50; }
-    .sigap-sidebar__avatar { @apply sigap-avatar; }
+    .sigap-sidebar__user-info--active { @apply bg-white/10; }
+    .sigap-sidebar__avatar { @apply sigap-avatar bg-slate-800 ring-slate-700 text-slate-200; }
     .sigap-sidebar__user-detail { @apply flex flex-col min-w-0; }
-    .sigap-sidebar__user-name { @apply text-sm font-semibold text-slate-800 truncate; }
+    .sigap-sidebar__user-name { @apply text-sm font-semibold text-white truncate; }
     .sigap-sidebar__user-role { @apply text-xs text-slate-400; }
     .sigap-sidebar__logout {
         @apply flex items-center gap-2 w-full px-3 py-2 rounded-lg text-sm font-medium
-               text-slate-500 hover:text-red-600 hover:bg-red-50 transition-all duration-150
+               text-slate-400 hover:text-red-300 hover:bg-red-500/10 transition-colors duration-150
                cursor-pointer border-0 bg-transparent;
     }
-
-    /* -- Mobile topbar -- */
-    .sigap-mobile-bar {
-        @apply md:hidden sticky top-0 z-20 flex items-center gap-3 px-4 py-3 bg-white border-b border-slate-200
-               backdrop-blur-md;
-    }
-    .sigap-mobile-bar__brand { @apply flex items-center gap-2 font-extrabold text-slate-900; }
+    .sigap-sidebar__logout svg { @apply text-slate-500; }
+    .sigap-sidebar__logout:hover svg { @apply text-red-300; }
 
     /* -- Topbar -- */
     .sigap-topbar {
-        @apply flex items-center justify-between gap-4 px-6 py-3.5 bg-white border-b border-slate-200 sticky top-0 z-10
-               backdrop-blur-md bg-white/90;
+        @apply sticky top-0 z-10 flex items-center justify-between gap-4 px-4 sm:px-6 lg:px-8 py-3.5
+               bg-white/90 border-b border-slate-200 backdrop-blur-md;
     }
-    .sigap-topbar__left { @apply flex items-center gap-4 flex-1; }
-    .sigap-topbar__right { @apply flex items-center gap-3; }
-    .sigap-topbar__search-wrapper { @apply relative w-full max-w-md; }
+    .sigap-topbar__left { @apply flex items-center gap-3 flex-1 min-w-0; }
+    .sigap-topbar__right { @apply flex items-center gap-2; }
+    .sigap-topbar__hamburger { @apply sigap-icon-btn md:hidden; }
+    .sigap-topbar__search-wrapper { @apply relative w-full max-w-sm hidden sm:block; }
     .sigap-topbar__search-icon {
-        @apply absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none;
+        @apply absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none w-4 h-4;
     }
     .sigap-topbar__search {
-        @apply w-full rounded-lg border border-slate-200 bg-slate-50 pl-10 pr-4 py-2 text-sm
-               placeholder:text-slate-400 transition-all duration-200
-               focus:outline-none focus:ring-2 focus:ring-sigap-500/30 focus:border-sigap-500 focus:bg-white;
+        @apply w-full rounded-lg border border-slate-200 bg-slate-50 pl-9 pr-4 py-2 text-sm
+               placeholder:text-slate-400 transition-colors duration-150
+               focus:outline-none focus:bg-white focus:border-sigap-500 focus:ring-2 focus:ring-sigap-500/20;
     }
     .sigap-topbar__user { @apply hidden sm:block text-sm font-medium text-slate-700; }
     .sigap-topbar__user-link {
-        @apply flex items-center gap-3 no-underline rounded-lg px-2 py-1 -mr-2
-               transition-colors duration-150 hover:bg-slate-50;
+        @apply flex items-center gap-2.5 no-underline rounded-lg px-1.5 py-1 -mr-2
+               transition-colors duration-150 hover:bg-slate-100;
     }
+    .sigap-topbar__divider { @apply hidden sm:block h-6 w-px bg-slate-200 mx-1; }
 
     .sigap-app-content { @apply flex-1 flex flex-col min-w-0; }
 
@@ -465,37 +522,38 @@
     .sigap-stats-grid { @apply grid sm:grid-cols-2 lg:grid-cols-3 gap-4; }
     .sigap-stats-grid--4 { @apply lg:grid-cols-4; }
     .sigap-stat-card {
-        @apply bg-white rounded-xl border border-slate-200 shadow-sm p-5 flex flex-col gap-2
-               transition-all duration-200 hover:shadow-md hover:-translate-y-0.5;
+        @apply bg-white rounded-xl border border-slate-200 shadow-sigap-card p-5 flex flex-col gap-1.5
+               transition-colors duration-150 hover:border-slate-300;
     }
     .sigap-stat-card__icon {
-        @apply w-10 h-10 rounded-lg flex items-center justify-center mb-1;
+        @apply w-10 h-10 rounded-lg flex items-center justify-center mb-2;
     }
-    .sigap-stat-card__icon--blue    { @apply bg-sky-100 text-sky-600; }
-    .sigap-stat-card__icon--amber   { @apply bg-amber-100 text-amber-600; }
-    .sigap-stat-card__icon--emerald { @apply bg-emerald-100 text-emerald-600; }
-    .sigap-stat-card__icon--red     { @apply bg-red-100 text-red-600; }
-    .sigap-stat-card__icon--violet  { @apply bg-violet-100 text-violet-600; }
+    .sigap-stat-card__icon--blue    { @apply bg-sky-50 text-sky-600 ring-1 ring-sky-100; }
+    .sigap-stat-card__icon--amber   { @apply bg-amber-50 text-amber-600 ring-1 ring-amber-100; }
+    .sigap-stat-card__icon--emerald { @apply bg-emerald-50 text-emerald-600 ring-1 ring-emerald-100; }
+    .sigap-stat-card__icon--red     { @apply bg-red-50 text-red-600 ring-1 ring-red-100; }
+    .sigap-stat-card__icon--violet  { @apply bg-violet-50 text-violet-600 ring-1 ring-violet-100; }
     .sigap-stat-card__label { @apply text-sm text-slate-500; }
-    .sigap-stat-card__value { @apply text-3xl font-bold text-slate-900; }
-    .sigap-stat-card__footer { @apply text-xs text-slate-400 mt-1; }
+    .sigap-stat-card__value { @apply text-2xl md:text-3xl font-bold text-slate-900 tracking-tight; }
+    .sigap-stat-card__footer { @apply text-xs text-slate-400 mt-1.5 flex items-center gap-1; }
 
     /* ============ CHART (CSS murni) ============ */
     .sigap-chart-grid { @apply grid lg:grid-cols-2 gap-4; }
     .sigap-chart-card {
-        @apply bg-white rounded-xl border border-slate-200 shadow-sm p-5 flex flex-col;
+        @apply bg-white rounded-xl border border-slate-200 shadow-sigap-card p-6 flex flex-col;
     }
-    .sigap-chart-card__title { @apply text-sm font-semibold text-slate-700 mb-1; }
-    .sigap-chart-card__subtitle { @apply text-xs text-slate-400 mb-5; }
+    .sigap-chart-card__header { @apply flex items-center justify-between gap-3 flex-wrap mb-5; }
+    .sigap-chart-card__title { @apply text-sm font-semibold text-slate-800; }
+    .sigap-chart-card__subtitle { @apply text-xs text-slate-400 mt-0.5; }
 
     .sigap-bar-chart { @apply flex flex-col gap-3.5; }
     .sigap-bar-chart__row { @apply flex items-center gap-3; }
     .sigap-bar-chart__label { @apply w-32 shrink-0 text-sm text-slate-600 truncate; }
     .sigap-bar-chart__track {
-        @apply flex-1 h-2.5 rounded-full bg-slate-100 overflow-hidden;
+        @apply flex-1 h-2 rounded-full bg-slate-100 overflow-hidden;
     }
     .sigap-bar-chart__fill {
-        @apply h-full rounded-full bg-gradient-to-r from-sigap-500 to-sigap-600 transition-all duration-500;
+        @apply h-full rounded-full bg-sigap-500 transition-all duration-500;
     }
     .sigap-bar-chart__value { @apply w-12 shrink-0 text-right text-sm font-semibold text-slate-700; }
 
@@ -507,15 +565,15 @@
     .sigap-donut-chart__center {
         @apply absolute inset-0 flex flex-col items-center justify-center;
     }
-    .sigap-donut-chart__center-value { @apply text-2xl font-extrabold text-slate-900; }
+    .sigap-donut-chart__center-value { @apply text-2xl font-extrabold text-slate-900 tracking-tight; }
     .sigap-donut-chart__center-label { @apply text-[11px] text-slate-400 font-medium; }
-    .sigap-donut-chart__legend { @apply flex flex-col gap-2 flex-1 min-w-40; }
-    .sigap-donut-chart__legend-item { @apply flex items-center gap-2 text-sm text-slate-600; }
+    .sigap-donut-chart__legend { @apply flex flex-col gap-2.5 flex-1 min-w-40; }
+    .sigap-donut-chart__legend-item { @apply flex items-center gap-2.5 text-sm text-slate-600; }
     .sigap-donut-chart__legend-dot { @apply w-2.5 h-2.5 rounded-full shrink-0; }
     .sigap-donut-chart__legend-value { @apply ml-auto font-semibold text-slate-800; }
 
     /* ============ PROGRESS BAR ============ */
-    .sigap-progress { @apply flex flex-col gap-1; }
+    .sigap-progress { @apply flex flex-col gap-1.5; }
     .sigap-progress__track { @apply w-full h-2 rounded-full bg-slate-100 overflow-hidden; }
     .sigap-progress__fill { @apply h-full rounded-full bg-sigap-500 transition-all duration-500; }
     .sigap-progress__fill--amber { @apply bg-amber-500; }
@@ -525,9 +583,9 @@
     /* ============ AGENT QUEUE ============ */
     .sigap-queue-list { @apply flex flex-col gap-3; }
     .sigap-queue-card {
-        @apply relative bg-white rounded-xl border border-slate-200 shadow-sm p-5
+        @apply relative bg-white rounded-xl border border-slate-200 shadow-sigap-card p-5
                flex flex-col md:flex-row md:items-center md:justify-between gap-4
-               transition-all duration-200 hover:shadow-md hover:border-slate-300 overflow-hidden;
+               transition-colors duration-150 hover:border-slate-300 overflow-hidden;
     }
     .sigap-queue-card::before {
         content: '';
@@ -551,7 +609,7 @@
 
     /* ============ EMPTY STATE ============ */
     .sigap-empty {
-        @apply flex flex-col items-center justify-center text-center py-14 text-slate-400 px-6;
+        @apply flex flex-col items-center justify-center text-center py-14 px-6;
     }
     .sigap-empty__icon {
         @apply w-14 h-14 mb-4 text-slate-300;
@@ -561,10 +619,14 @@
 
     /* ============ DETAIL HEADER (ticket show) ============ */
     .sigap-detail-hero {
-        @apply bg-white rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col gap-4;
+        @apply bg-white rounded-xl border border-slate-200 shadow-sigap-card p-6 flex flex-col gap-4;
     }
     .sigap-detail-grid { @apply grid sm:grid-cols-2 lg:grid-cols-4 gap-4; }
+    .sigap-detail-grid--stack { @apply flex flex-col gap-3.5; }
     .sigap-detail-field { @apply flex flex-col gap-0.5; }
-    .sigap-detail-field__label { @apply text-xs uppercase tracking-wide text-slate-400 font-semibold; }
+    .sigap-detail-field__label { @apply text-[11px] uppercase tracking-wider text-slate-400 font-semibold; }
     .sigap-detail-field__value { @apply text-sm font-medium text-slate-800; }
+    .sigap-detail-layout { @apply grid lg:grid-cols-3 gap-5 items-start; }
+    .sigap-detail-main { @apply lg:col-span-2 flex flex-col gap-5 min-w-0; }
+    .sigap-detail-side { @apply lg:col-span-1 flex flex-col gap-5 min-w-0 lg:sticky lg:top-[4.5rem]; }
 }

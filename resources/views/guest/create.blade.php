@@ -4,7 +4,7 @@
 @section('content')
 <section id="sigap-guest-ticket-form" class="sigap-form-page">
     <h1 class="sigap-form-page__title">Buat Laporan Baru</h1>
-    <p class="text-sm text-slate-500 -mt-4 mb-6">Lengkapi formulir di bawah ini. Simpan nomor tiket untuk melacak perkembangan penanganan.</p>
+    <p class="sigap-form-page__subtitle">Lengkapi formulir di bawah ini. Simpan nomor tiket untuk melacak perkembangan penanganan.</p>
 
     <div class="sigap-form-page__card">
         <form method="POST" action="{{ route('guest.ticket.store') }}" enctype="multipart/form-data"

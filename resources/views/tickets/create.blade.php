@@ -73,16 +73,63 @@
             @error('prioritas') <span class="sigap-form__error">{{ $message }}</span> @enderror
         </div>
 
-        <div class="sigap-form__group" x-data="cameraCapture">
+        <div class="sigap-form__group" x-data="evidenceDropzone">
             <label for="evidence" class="sigap-form__label">Lampiran (Opsional, maks 2MB, JPG/PNG/PDF)</label>
-            <input type="file" name="evidence" id="evidence" class="sigap-form__file" x-ref="field" @change="onPick">
-            <button type="button" class="sigap-btn sigap-btn--secondary w-full sm:w-auto mt-2" @click="start()">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                    <circle cx="12" cy="13" r="4"/>
+
+            <div x-show="!fileName"
+                 @dragover.prevent="dragOver = true"
+                 @dragleave.prevent="dragOver = false"
+                 @drop.prevent="onDrop($event)"
+                 :class="dragOver ? 'sigap-form__dropzone--active' : 'sigap-form__dropzone'"
+                 class="sigap-form__dropzone"
+                 role="button" tabindex="0"
+                 @keydown.enter.prevent="document.getElementById('evidence').click()"
+                 @keydown.space.prevent="document.getElementById('evidence').click()"
+                 @click="document.getElementById('evidence').click()">
+                <svg class="mx-auto mb-3 h-8 w-8 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
                 </svg>
-                Ambil Foto dengan Kamera
-            </button>
+                <p class="text-sm font-medium text-slate-600">Tarik & letakkan berkas di sini</p>
+                <p class="text-xs text-slate-400 mt-1">
+                    atau <span class="font-semibold text-sigap-600 underline">klik untuk memilih</span> — JPG, PNG, atau PDF
+                </p>
+            </div>
+
+            <input type="file" name="evidence" id="evidence" class="sr-only" accept=".jpg,.jpeg,.png,.pdf"
+                   x-ref="field" @change="onPick" x-on:focus="document.activeElement.focus()">
+
+            <div x-cloak x-show="fileName" class="sigap-form__file-chip">
+                <div class="flex items-center gap-3 p-3 rounded-xl border border-slate-200 bg-white w-full sm:w-96">
+                    <div class="shrink-0 w-10 h-10 rounded-lg bg-sigap-50 text-sigap-600 flex items-center justify-center">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                        </svg>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-sm font-medium text-slate-800 truncate" x-text="fileName"></p>
+                        <p class="text-xs text-slate-400" x-text="fileSizeText"></p>
+                    </div>
+                    <button type="button" class="sigap-icon-btn" title="Hapus berkas" @click="clear()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-3 flex flex-wrap items-center gap-2">
+                <button type="button" class="sigap-btn sigap-btn--secondary sigap-btn--sm" @click="start()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                        <circle cx="12" cy="13" r="4"/>
+                    </svg>
+                    Ambil Foto dengan Kamera
+                </button>
+            </div>
 
             {{-- Pratinjau hasil foto --}}
             <div x-cloak x-show="shotUrl" class="mt-3 flex items-center gap-3">

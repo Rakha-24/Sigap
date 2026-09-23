@@ -12,6 +12,7 @@ use App\Services\SlaCalculator;
 use App\Services\TicketEvidenceService;
 use App\Services\TicketNumberGenerator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TicketController extends Controller
 {
@@ -21,12 +22,28 @@ class TicketController extends Controller
         private readonly TicketEvidenceService $evidenceService,
     ) {}
 
-    public function index()
+    public function index(Request $request)
     {
-        $tickets = Ticket::with(['departemen', 'kategori'])
-            ->where('id_pelapor', auth()->id())
-            ->latest()
-            ->paginate(15);
+        $query = Ticket::with(['departemen', 'kategori'])
+            ->where('id_pelapor', auth()->id());
+
+        if ($cari = trim((string) $request->query('cari'))) {
+            $op = DB::connection()->getDriverName() === 'pgsql' ? 'ilike' : 'like';
+            $query->where(function ($q) use ($cari, $op) {
+                $q->where('nomor_tiket', $op, "%{$cari}%")
+                    ->orWhere('judul', $op, "%{$cari}%");
+            });
+        }
+
+        if ($status = $request->query('status')) {
+            $query->where('status', $status);
+        }
+
+        if ($prioritas = $request->query('prioritas')) {
+            $query->where('prioritas', $prioritas);
+        }
+
+        $tickets = $query->latest()->paginate(15)->withQueryString();
 
         return view('tickets.index', compact('tickets'));
     }

@@ -7,9 +7,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     {{-- Muat font Inter secara non-blocking agar tidak menghambat First Paint --}}
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
     </noscript>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -25,11 +25,7 @@
                 </defs>
                 <rect width="100%" height="100%" fill="url(#sigapDotGrid)"/>
             </svg>
-            <div class="sigap-auth-shell__orb sigap-auth-shell__orb--top" aria-hidden="true"></div>
-            <div class="sigap-auth-shell__orb sigap-auth-shell__orb--bottom" aria-hidden="true"></div>
-            <svg class="sigap-auth-shell__watermark" viewBox="0 0 100 100" aria-hidden="true">
-                <path d="M56 3 17 57h27l-5 41 42-58H54l2-37Z" fill="none" stroke="white" stroke-width="1.5"/>
-            </svg>
+            <div class="sigap-auth-shell__flow" aria-hidden="true"></div>
 
             <div class="sigap-auth-shell__content">
                 <div class="sigap-auth-shell__mark">
