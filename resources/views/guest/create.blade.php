@@ -21,14 +21,14 @@
                     <label for="nama_guest" class="sigap-form__label">Nama Lengkap</label>
                     <input type="text" name="nama_guest" id="nama_guest" class="sigap-form__input"
                            placeholder="Nama Anda" value="{{ old('nama_guest') }}" required>
-                    @error('nama_guest') <span class="sigap-form__error">{{ $message }}</span> @enderror
+                    @error('nama_guest') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="sigap-form__group">
                     <label for="kontak_guest" class="sigap-form__label">Kontak (Email/No. HP)</label>
                     <input type="text" name="kontak_guest" id="kontak_guest" class="sigap-form__input"
                            placeholder="cara kami menghubungi Anda" value="{{ old('kontak_guest') }}" required>
-                    @error('kontak_guest') <span class="sigap-form__error">{{ $message }}</span> @enderror
+                    @error('kontak_guest') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
                 </div>
             </div>
 
@@ -44,7 +44,7 @@
                             </option>
                         @endforeach
                     </select>
-                    @error('departemen_id') <span class="sigap-form__error">{{ $message }}</span> @enderror
+                    @error('departemen_id') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="sigap-form__group">
@@ -58,7 +58,7 @@
                             </option>
                         @endforeach
                     </select>
-                    @error('kategori_id') <span class="sigap-form__error">{{ $message }}</span> @enderror
+                    @error('kategori_id') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
                 </div>
             </div>
 
@@ -107,7 +107,7 @@
                         <button type="button" class="text-sm font-medium text-red-600 hover:underline" @click="clearShot()">Hapus foto</button>
                     </div>
                 </div>
-                @error('evidence') <span class="sigap-form__error">{{ $message }}</span> @enderror
+                @error('evidence') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
 
                 @include('partials.camera-modal')
             </div>

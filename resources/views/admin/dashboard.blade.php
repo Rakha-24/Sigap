@@ -48,7 +48,7 @@
         <div class="sigap-card" id="sigap-admin-dashboard__sla-warning">
             <div class="sigap-card__header">
                 <span class="text-sm font-semibold text-slate-900">Peringatan SLA</span>
-                <span class="text-xs text-amber-600 font-medium">Segera melewati batas waktu</span>
+                <span class="text-xs text-amber-700 font-medium">Segera melewati batas waktu</span>
             </div>
             <div class="sigap-table-wrapper">
                 <table class="sigap-table">

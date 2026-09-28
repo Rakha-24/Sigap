@@ -22,17 +22,28 @@
         <form method="POST" action="{{ route('admin.master-data.departemen.store') }}" class="sigap-form max-w-none" id="sigap-admin-master-data-create__form">
             @csrf
 
-            <div class="sigap-form__group">
-                <label for="nama" class="sigap-form__label">Nama Departemen</label>
-                <input type="text" name="nama" id="nama" class="sigap-form__input"
-                       placeholder="Contoh: IT Support" value="{{ old('nama') }}" required>
-                @error('nama') <span class="sigap-form__error">{{ $message }}</span> @enderror
+            <div class="grid sm:grid-cols-2 gap-4">
+                <div class="sigap-form__group">
+                    <label for="nama" class="sigap-form__label">Nama Departemen</label>
+                    <input type="text" name="nama" id="nama" class="sigap-form__input"
+                           placeholder="Contoh: IT Support" value="{{ old('nama') }}" required>
+                    @error('nama') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="sigap-form__group">
+                    <label for="kode" class="sigap-form__label">Kode (Opsional)</label>
+                    <input type="text" name="kode" id="kode" class="sigap-form__input"
+                           placeholder="Contoh: ITS (maks. 6 huruf/angka)" value="{{ old('kode') }}"
+                           maxlength="6" pattern="[A-Za-z0-9]+" title="Hanya huruf dan angka, maksimal 6 karakter">
+                    <p class="sigap-form__hint">Kosongkan untuk membuat kode otomatis dari nama.</p>
+                    @error('kode') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
+                </div>
             </div>
 
             <div class="sigap-form__group">
                 <label for="deskripsi" class="sigap-form__label">Deskripsi (Opsional)</label>
                 <textarea name="deskripsi" id="deskripsi" class="sigap-form__textarea" rows="3">{{ old('deskripsi') }}</textarea>
-                @error('deskripsi') <span class="sigap-form__error">{{ $message }}</span> @enderror
+                @error('deskripsi') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
             </div>
 
             <div class="flex gap-3 flex-wrap">

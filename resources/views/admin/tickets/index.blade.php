@@ -68,7 +68,7 @@
                         </td>
                         <td class="text-slate-500">
                             @if($ticket->sla_target_at)
-                                <span class="{{ $ticket->isSlaBreached() ? 'text-red-600 font-medium' : '' }}">
+                                <span class="{{ $ticket->isSlaBreached() ? 'text-red-700 font-medium' : '' }}">
                                     {{ $ticket->sla_target_at->format('d M Y, H:i') }}
                                 </span>
                             @else

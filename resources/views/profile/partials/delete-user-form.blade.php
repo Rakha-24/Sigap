@@ -32,7 +32,7 @@
             <div class="mt-4 sigap-form__group">
                 <label for="password" class="sigap-form__label">Kata Sandi</label>
                 <input id="password" name="password" type="password" class="sigap-form__input" placeholder="Kata sandi Anda">
-                @error('password', 'userDeletion') <span class="sigap-form__error">{{ $message }}</span> @enderror
+                @error('password', 'userDeletion') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
             </div>
 
             <div class="mt-6 flex justify-end gap-3">

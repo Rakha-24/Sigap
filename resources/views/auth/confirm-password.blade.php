@@ -15,7 +15,7 @@
             <label for="password" class="sigap-form__label">Kata Sandi</label>
             <input type="password" name="password" id="password" class="sigap-form__input"
                    required autocomplete="current-password">
-            @error('password') <span class="sigap-form__error">{{ $message }}</span> @enderror
+            @error('password') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
         </div>
 
         <button type="submit" class="sigap-form__submit">Konfirmasi</button>

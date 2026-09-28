@@ -96,7 +96,7 @@
                             </td>
                             <td>
                                 @if($ticket->isSlaBreached())
-                                    <span class="sigap-badge sigap-badge--closed text-amber-600">SLA terlampaui</span>
+                                    <span class="sigap-badge sigap-badge--closed text-amber-700">SLA terlampaui</span>
                                 @elseif($ticket->sla_target_at)
                                     <span class="text-xs text-slate-500">{{ $ticket->sla_target_at->diffForHumans(null, true) }}</span>
                                 @else

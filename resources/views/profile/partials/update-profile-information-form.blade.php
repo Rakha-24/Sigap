@@ -42,7 +42,7 @@
                             Hapus foto saat ini
                         </label>
                     @endif
-                    @error('avatar') <span class="sigap-form__error">{{ $message }}</span> @enderror
+                    @error('avatar') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
                 </div>
             </div>
 
@@ -82,14 +82,14 @@
             <label for="name" class="sigap-form__label">Nama Lengkap</label>
             <input id="name" name="name" type="text" class="sigap-form__input"
                    value="{{ old('name', $user->name) }}" required autofocus autocomplete="name">
-            @error('name') <span class="sigap-form__error">{{ $message }}</span> @enderror
+            @error('name') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
         </div>
 
         <div class="sigap-form__group">
             <label for="email" class="sigap-form__label">Email</label>
             <input id="email" name="email" type="email" class="sigap-form__input"
                    value="{{ old('email', $user->email) }}" required autocomplete="username">
-            @error('email') <span class="sigap-form__error">{{ $message }}</span> @enderror
+            @error('email') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                 <div class="sigap-alert sigap-alert--error !mx-0 !mb-0 w-full">

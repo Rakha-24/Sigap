@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -35,11 +36,20 @@ class ProfileController extends Controller
         }
 
         if ($request->boolean('remove_avatar')) {
-            $user->deleteAvatarFile();
+            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+                Storage::disk('public')->delete($user->avatar);
+            }
             $user->avatar = null;
+            $user->avatar_data = null;
+            $user->avatar_mime = null;
         } elseif ($request->hasFile('avatar')) {
-            $user->deleteAvatarFile();
-            $user->avatar = $request->file('avatar')->store('avatars', 'public');
+            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+            $file = $request->file('avatar');
+            $user->avatar = null;
+            $user->avatar_mime = $file->getMimeType();
+            $user->avatar_data = base64_encode($file->get());
         }
 
         $user->save();

@@ -26,7 +26,7 @@
                         </option>
                     @endforeach
                 </select>
-                @error('departemen_id') <span class="sigap-form__error">{{ $message }}</span> @enderror
+                @error('departemen_id') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
             </div>
 
             <div class="sigap-form__group">
@@ -40,7 +40,7 @@
                         </option>
                     @endforeach
                 </select>
-                @error('kategori_id') <span class="sigap-form__error">{{ $message }}</span> @enderror
+                @error('kategori_id') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
             </div>
         </div>
 
@@ -48,14 +48,14 @@
             <label for="judul" class="sigap-form__label">Judul Tiket</label>
             <input type="text" name="judul" id="judul" class="sigap-form__input"
                    placeholder="Ringkasan singkat masalah Anda" value="{{ old('judul') }}" required>
-            @error('judul') <span class="sigap-form__error">{{ $message }}</span> @enderror
+            @error('judul') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
         </div>
 
         <div class="sigap-form__group">
             <label for="deskripsi" class="sigap-form__label">Deskripsi Lengkap</label>
             <textarea name="deskripsi" id="deskripsi" class="sigap-form__textarea" rows="5"
                       placeholder="Jelaskan detail kendala, langkah yang sudah dicoba, dll." required>{{ old('deskripsi') }}</textarea>
-            @error('deskripsi') <span class="sigap-form__error">{{ $message }}</span> @enderror
+            @error('deskripsi') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
         </div>
 
         <div class="sigap-form__group" id="sigap-tickets-create__priority">
@@ -70,7 +70,7 @@
                 @endforeach
             </div>
             <p class="sigap-form__hint">Prioritas menentukan target penyelesaian (SLA): Tinggi ×0.5, Sedang ×1.0, Rendah ×1.5 dari SLA default.</p>
-            @error('prioritas') <span class="sigap-form__error">{{ $message }}</span> @enderror
+            @error('prioritas') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
         </div>
 
         <div class="sigap-form__group" x-data="evidenceDropzone">
@@ -140,7 +140,7 @@
                     <button type="button" class="text-sm font-medium text-red-600 hover:underline" @click="clearShot()">Hapus foto</button>
                 </div>
             </div>
-            @error('evidence') <span class="sigap-form__error">{{ $message }}</span> @enderror
+            @error('evidence') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
 
             @include('partials.camera-modal')
         </div>

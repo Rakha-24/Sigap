@@ -80,7 +80,7 @@
                         <textarea name="pesan" id="pesan" rows="3" maxlength="2000" required placeholder="Isi tanggapan atau keterangan tambahan..." class="sigap-form__textarea"></textarea>
                     </div>
                     @error('pesan')
-                        <span class="sigap-form__error">{{ $message }}</span>
+                        <span role="alert" class="sigap-form__error">{{ $message }}</span>
                     @enderror
                     <button type="submit" class="sigap-form__submit sm:!w-auto sm:px-8">
                         Kirim
@@ -138,7 +138,7 @@
                     @endphp
                     <div class="sigap-progress mt-5">
                         <div class="sigap-progress__labels">
-                            <span class="font-medium {{ $ticket->isSlaBreached() ? 'text-red-600' : ($sisaJam <= 24 ? 'text-amber-600' : 'text-emerald-600') }}">
+                            <span class="font-medium {{ $ticket->isSlaBreached() ? 'text-red-700' : ($sisaJam <= 24 ? 'text-amber-700' : 'text-emerald-700') }}">
                                 @if($ticket->isSlaBreached())
                                     SLA terlampaui
                                 @else
@@ -154,7 +154,7 @@
                 @elseif($ticket->sla_target_at)
                     <div class="sigap-progress mt-5">
                         <div class="sigap-progress__labels">
-                            <span class="font-medium text-emerald-600">Selesai sesuai target</span>
+                            <span class="font-medium text-emerald-700">Selesai sesuai target</span>
                             <span>Target {{ $ticket->sla_target_at->format('d M, H:i') }}</span>
                         </div>
                         <div class="sigap-progress__track">
@@ -230,6 +230,8 @@
 
                                 $judulAksi = match ($log->aksi) {
                                     'ticket_created' => 'Tiket berhasil dibuat',
+                                    'comment_added' => 'Tanggapan ditambahkan pada tiket',
+                                    'internal_note_added' => 'Tanggapan internal ditambahkan pada tiket',
                                     'status_changed' => match ($statusBaru) {
                                         'open'        => 'Tiket dibuka kembali',
                                         'in_progress' => 'Tiket mulai ditangani teknisi',

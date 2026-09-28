@@ -12,11 +12,15 @@ class DashboardController extends Controller
             'admin' => redirect()->route('admin.dashboard'),
             'agent' => $this->agentDashboard(),
             default => view('user.dashboard', [
-                'tickets' => auth()->user()->ticketsSebagaiPelapor()->latest()->take(10)->get(),
-                'stats'   => [
-                    'total'       => auth()->user()->ticketsSebagaiPelapor()->count(),
+                'tickets' => auth()->user()->ticketsSebagaiPelapor()
+                    ->with(['departemen', 'kategori'])
+                    ->latest()
+                    ->take(10)
+                    ->get(),
+                'stats' => [
+                    'total' => auth()->user()->ticketsSebagaiPelapor()->count(),
                     'in_progress' => auth()->user()->ticketsSebagaiPelapor()->where('status', 'in_progress')->count(),
-                    'selesai'     => auth()->user()->ticketsSebagaiPelapor()->where('status', 'resolved')->count(),
+                    'selesai' => auth()->user()->ticketsSebagaiPelapor()->where('status', 'resolved')->count(),
                 ],
             ]),
         };
@@ -32,13 +36,13 @@ class DashboardController extends Controller
         $ditugaskan = Ticket::where('assigned_agent_id', $agentId);
 
         $stats = [
-            'total'            => (clone $ditugaskan)->count(),
-            'in_progress'      => (clone $ditugaskan)->where('status', 'in_progress')->count(),
+            'total' => (clone $ditugaskan)->count(),
+            'in_progress' => (clone $ditugaskan)->where('status', 'in_progress')->count(),
             'selesai_hari_ini' => (clone $ditugaskan)
                 ->where('status', 'resolved')
                 ->whereDate('resolved_at', today())
                 ->count(),
-            'sla_terlampaui'   => (clone $ditugaskan)
+            'sla_terlampaui' => (clone $ditugaskan)
                 ->whereNotIn('status', ['resolved', 'closed'])
                 ->where('sla_target_at', '<', now())
                 ->count(),

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Notifications\ResetPasswordNotification;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -19,6 +18,8 @@ class User extends Authenticatable
         'name',
         'email',
         'avatar',
+        'avatar_data',
+        'avatar_mime',
         'password',
         'role',
         'departemen_id',
@@ -34,18 +35,22 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password'          => 'hashed',
-            'is_active'         => 'boolean',
+            'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
     }
 
-    /** URL foto profil yang bisa diakses publik (null bila belum mengunggah). */
+    /** URL foto profil yang bisa diakses (null bila belum mengunggah). */
     public function getAvatarUrlAttribute(): ?string
     {
-        return $this->avatar ? asset('storage/' . $this->avatar) : null;
+        if ($this->avatar_data && $this->avatar_mime) {
+            return 'data:'.$this->avatar_mime.';base64,'.$this->avatar_data;
+        }
+
+        return $this->avatar ? asset('storage/'.$this->avatar) : null;
     }
 
-    /** Hapus berkas foto profil lama dari disk publik bila ada. */
+    /** Hapus foto profil lama (data di database ataupun berkas disk bila ada). */
     public function deleteAvatarFile(): void
     {
         if ($this->avatar && Storage::disk('public')->exists($this->avatar)) {

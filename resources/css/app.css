@@ -325,12 +325,12 @@
     .sigap-footer__grid { @apply grid md:grid-cols-4 gap-10; }
     .sigap-footer__brand { @apply flex items-center gap-2.5 text-base font-extrabold text-slate-900 mb-3; }
     .sigap-footer__desc { @apply text-sm text-slate-500 leading-relaxed max-w-xs; }
-    .sigap-footer__heading { @apply text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4; }
+    .sigap-footer__heading { @apply text-xs font-semibold uppercase tracking-wider text-slate-600 mb-4; }
     .sigap-footer__link {
         @apply block text-sm text-slate-600 py-1 hover:text-sigap-600 transition-colors duration-150;
     }
     .sigap-footer__bottom {
-        @apply border-t border-slate-200 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-400;
+        @apply border-t border-slate-200 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-600;
     }
 
     /* ============ GUEST: FORM PAGE (lapor & tracking) ============ */
@@ -457,7 +457,7 @@
     .sigap-sidebar__nav { @apply flex flex-col gap-0.5 flex-1 overflow-y-auto -mx-1 px-1; }
     .sigap-sidebar__separator { @apply border-t border-slate-800 my-3; }
     .sigap-sidebar__section-label {
-        @apply px-3 py-2 text-[11px] font-semibold text-slate-500 uppercase tracking-wider;
+        @apply px-3 py-2 text-[11px] font-semibold text-slate-300 uppercase tracking-wider;
     }
     .sigap-sidebar__link {
         @apply relative flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400

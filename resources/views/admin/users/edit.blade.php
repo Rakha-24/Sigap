@@ -27,19 +27,19 @@
                 <div class="sigap-form__group">
                     <label for="name" class="sigap-form__label">Nama Lengkap</label>
                     <input type="text" name="name" id="name" class="sigap-form__input" value="{{ old('name', $user->name) }}" required>
-                    @error('name') <span class="sigap-form__error">{{ $message }}</span> @enderror
+                    @error('name') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="sigap-form__group">
                     <label for="email" class="sigap-form__label">Email</label>
                     <input type="email" name="email" id="email" class="sigap-form__input" value="{{ old('email', $user->email) }}" required>
-                    @error('email') <span class="sigap-form__error">{{ $message }}</span> @enderror
+                    @error('email') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="sigap-form__group">
                     <label for="password" class="sigap-form__label">Kata Sandi Baru (opsional)</label>
                     <input type="password" name="password" id="password" class="sigap-form__input" placeholder="Kosongkan jika tidak diubah">
-                    @error('password') <span class="sigap-form__error">{{ $message }}</span> @enderror
+                    @error('password') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="sigap-form__group">
@@ -55,7 +55,7 @@
                             <option value="{{ $val }}" {{ old('role', $user->role) === $val ? 'selected' : '' }}>{{ $label }}</option>
                         @endforeach
                     </select>
-                    @error('role') <span class="sigap-form__error">{{ $message }}</span> @enderror
+                    @error('role') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="sigap-form__group" id="sigap-admin-users-edit__departemen"
@@ -69,7 +69,7 @@
                             </option>
                         @endforeach
                     </select>
-                    @error('departemen_id') <span class="sigap-form__error">{{ $message }}</span> @enderror
+                    @error('departemen_id') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
                 </div>
             </div>
 

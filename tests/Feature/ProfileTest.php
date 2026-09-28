@@ -65,8 +65,6 @@ class ProfileTest extends TestCase
 
     public function test_avatar_can_be_uploaded(): void
     {
-        Storage::fake('public');
-
         $user = User::factory()->create();
 
         $response = $this
@@ -79,8 +77,13 @@ class ProfileTest extends TestCase
 
         $response->assertSessionHasNoErrors();
 
-        Storage::disk('public')->assertExists($user->refresh()->avatar);
-        $this->assertStringStartsWith('avatars/', $user->avatar);
+        $user->refresh();
+        $this->assertNotNull($user->avatar_data);
+        $this->assertSame('image/jpeg', $user->avatar_mime);
+        $this->assertStringStartsWith(
+            'data:image/jpeg;base64,',
+            $user->avatar_url,
+        );
     }
 
     public function test_old_avatar_is_deleted_when_replaced(): void
@@ -100,8 +103,9 @@ class ProfileTest extends TestCase
             ])
             ->assertSessionHasNoErrors();
 
-        Storage::disk('public')->assertExists($user->refresh()->avatar);
-        $this->assertSame(1, count(Storage::disk('public')->allFiles('avatars')));
+        $user->refresh();
+        $this->assertNotNull($user->avatar_data);
+        $this->assertSame('', trim(implode('', Storage::disk('public')->allFiles('avatars'))));
     }
 
     public function test_avatar_can_be_removed(): void
@@ -121,7 +125,11 @@ class ProfileTest extends TestCase
             ->assertSessionHasNoErrors();
 
         Storage::disk('public')->assertMissing($path);
-        $this->assertNull($user->refresh()->avatar);
+        $user->refresh();
+        $this->assertNull($user->avatar);
+        $this->assertNull($user->avatar_data);
+        $this->assertNull($user->avatar_mime);
+        $this->assertNull($user->avatar_url);
     }
 
     public function test_avatar_must_be_a_valid_image(): void

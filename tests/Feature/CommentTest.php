@@ -155,4 +155,16 @@ class CommentTest extends TestCase
 
         $this->assertDatabaseCount('comments', 0);
     }
+
+    public function test_pesan_terlalu_panjang_ditolak_explicitly(): void
+    {
+        $pelapor = User::factory()->create(['role' => 'user']);
+        $tiket = $this->buatTiket($pelapor);
+
+        $this->actingAs($pelapor)
+            ->post(route('tickets.comments.store', $tiket), ['pesan' => str_repeat('x', 2001)])
+            ->assertSessionHasErrors('pesan');
+
+        $this->assertDatabaseCount('comments', 0);
+    }
 }

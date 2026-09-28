@@ -59,7 +59,7 @@
                     <th>Departemen</th>
                     <th>Prioritas</th>
                     <th>Status</th>
-                    <th></th>
+                    <th><span class="sr-only">Aksi</span></th>
                 </tr>
             </thead>
             <tbody>

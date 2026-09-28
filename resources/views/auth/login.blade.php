@@ -17,7 +17,7 @@
             <label for="email" class="sigap-form__label">Alamat Email</label>
             <input type="email" name="email" id="email" class="sigap-form__input"
                    placeholder="nama@instansi.go.id" value="{{ old('email') }}" required autofocus>
-            @error('email') <span class="sigap-form__error">{{ $message }}</span> @enderror
+            @error('email') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
         </div>
 
         <div class="sigap-form__group">
@@ -43,7 +43,7 @@
                     </svg>
                 </button>
             </div>
-            @error('password') <span class="sigap-form__error">{{ $message }}</span> @enderror
+            @error('password') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
         </div>
 
         <label class="sigap-form__checkbox-row">

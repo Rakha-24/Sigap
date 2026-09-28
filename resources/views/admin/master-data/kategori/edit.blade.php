@@ -33,14 +33,14 @@
                             </option>
                         @endforeach
                     </select>
-                    @error('departemen_id') <span class="sigap-form__error">{{ $message }}</span> @enderror
+                    @error('departemen_id') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="sigap-form__group">
                     <label for="nama" class="sigap-form__label">Nama Kategori</label>
                     <input type="text" name="nama" id="nama" class="sigap-form__input"
                            value="{{ old('nama', $kategori->nama) }}" required>
-                    @error('nama') <span class="sigap-form__error">{{ $message }}</span> @enderror
+                    @error('nama') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
                 </div>
             </div>
 
@@ -48,7 +48,7 @@
                 <label for="default_sla_jam" class="sigap-form__label">Default SLA (jam)</label>
                 <input type="number" name="default_sla_jam" id="default_sla_jam" class="sigap-form__input"
                        min="1" max="720" value="{{ old('default_sla_jam', $kategori->default_sla_jam) }}" required>
-                @error('default_sla_jam') <span class="sigap-form__error">{{ $message }}</span> @enderror
+                @error('default_sla_jam') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
             </div>
 
             <div class="flex gap-3 flex-wrap">

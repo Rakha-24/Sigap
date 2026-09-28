@@ -56,6 +56,15 @@
             <div class="relative">
                 <div class="absolute -inset-x-6 -inset-y-4 bg-sigap-50 border border-sigap-100 rounded-3xl" aria-hidden="true"></div>
                 <div id="sigap-landing-hero__mockup" class="relative rounded-xl border border-slate-200 bg-white shadow-sigap-pop overflow-hidden">
+                    <div class="flex items-center justify-end gap-2 px-4 py-1.5 bg-slate-50 border-b border-slate-100">
+                        <span class="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <rect x="3" y="11" width="18" height="11" rx="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                            Ilustrasi tampilan
+                        </span>
+                    </div>
                     {{-- Browser chrome --}}
                     <div class="flex items-center gap-2 px-4 py-3 border-b border-slate-100 bg-slate-50/70">
                         <span class="w-2.5 h-2.5 rounded-full bg-slate-200"></span>

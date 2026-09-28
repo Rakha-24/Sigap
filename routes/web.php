@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\MasterDataController;
 use App\Http\Controllers\Admin\TicketAdminController;
@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 Route::view('/', 'guest.landing')->name('guest.landing');
+Route::view('/syarat-ketentuan', 'guest.terms')->name('guest.terms');
 
 Route::prefix('lapor')->name('guest.')->group(function () {
     Route::get('/', [GuestTicketController::class, 'create'])->name('ticket.create');
@@ -75,6 +76,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
         Route::get('/tickets', [TicketAdminController::class, 'index'])->name('tickets.index');
+        Route::get('/tickets/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
         Route::get('/analitik', [AnalyticsController::class, 'index'])->name('analytics');
         Route::get('/analitik/export', [AnalyticsController::class, 'export'])->name('analytics.export');
 

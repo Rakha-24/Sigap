@@ -14,13 +14,13 @@
             <label for="email" class="sigap-form__label">Alamat Email</label>
             <input type="email" name="email" id="email" class="sigap-form__input"
                    value="{{ old('email', $request->email) }}" required autofocus>
-            @error('email') <span class="sigap-form__error">{{ $message }}</span> @enderror
+            @error('email') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
         </div>
 
         <div class="sigap-form__group">
             <label for="password" class="sigap-form__label">Kata Sandi Baru</label>
             <input type="password" name="password" id="password" class="sigap-form__input" required>
-            @error('password') <span class="sigap-form__error">{{ $message }}</span> @enderror
+            @error('password') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
         </div>
 
         <div class="sigap-form__group">

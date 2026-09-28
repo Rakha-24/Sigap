@@ -29,8 +29,10 @@ class MasterDataController extends Controller
     public function store(StoreDepartemenRequest $request)
     {
         Departemen::create([
-            'kode'      => $this->generateUniqueKode($request->nama),
-            'nama'      => $request->nama,
+            'kode' => $request->filled('kode')
+                ? Str::upper($request->kode)
+                : $this->generateUniqueKode($request->nama),
+            'nama' => $request->nama,
             'deskripsi' => $request->deskripsi,
             'is_active' => true,
         ]);
@@ -48,7 +50,10 @@ class MasterDataController extends Controller
     public function update(UpdateDepartemenRequest $request, Departemen $departemen)
     {
         $departemen->update([
-            'nama'      => $request->nama,
+            'kode' => $request->filled('kode')
+                ? Str::upper($request->kode)
+                : $departemen->kode,
+            'nama' => $request->nama,
             'deskripsi' => $request->deskripsi,
             'is_active' => $request->boolean('is_active', $departemen->is_active),
         ]);

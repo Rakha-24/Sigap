@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'SIGAP - Sistem Helpdesk Terpadu')</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
@@ -108,8 +109,9 @@
                 </div>
                 <div>
                     <h4 class="sigap-footer__heading">Bantuan</h4>
-                    <a href="{{ route('guest.track.form') }}" class="sigap-footer__link">Pertanyaan Umum</a>
+                    <a href="{{ route('guest.landing') }}#sigap-landing-workflow" class="sigap-footer__link">Pertanyaan Umum</a>
                     <a href="{{ route('guest.landing') }}" class="sigap-footer__link">Tentang SIGAP</a>
+                    <a href="{{ route('guest.terms') }}" class="sigap-footer__link">Syarat &amp; Ketentuan</a>
                 </div>
             </div>
             <div class="sigap-footer__bottom">

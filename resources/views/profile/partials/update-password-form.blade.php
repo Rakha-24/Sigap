@@ -14,21 +14,21 @@
             <label for="update_password_current_password" class="sigap-form__label">Kata Sandi Saat Ini</label>
             <input id="update_password_current_password" name="current_password" type="password"
                    class="sigap-form__input" autocomplete="current-password">
-            @error('current_password', 'updatePassword') <span class="sigap-form__error">{{ $message }}</span> @enderror
+            @error('current_password', 'updatePassword') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
         </div>
 
         <div class="sigap-form__group">
             <label for="update_password_password" class="sigap-form__label">Kata Sandi Baru</label>
             <input id="update_password_password" name="password" type="password"
                    class="sigap-form__input" autocomplete="new-password">
-            @error('password', 'updatePassword') <span class="sigap-form__error">{{ $message }}</span> @enderror
+            @error('password', 'updatePassword') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
         </div>
 
         <div class="sigap-form__group">
             <label for="update_password_password_confirmation" class="sigap-form__label">Konfirmasi Kata Sandi Baru</label>
             <input id="update_password_password_confirmation" name="password_confirmation" type="password"
                    class="sigap-form__input" autocomplete="new-password">
-            @error('password_confirmation', 'updatePassword') <span class="sigap-form__error">{{ $message }}</span> @enderror
+            @error('password_confirmation', 'updatePassword') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
         </div>
 
         <div class="flex items-center gap-4">
