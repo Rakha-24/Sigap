@@ -15,6 +15,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => CheckRole::class,
         ]);
+
+        // Vercel memutus TLS di edge; peramban tetap bertukar paket dengan
+        // protokol HTTPS lewat X-Forwarded-Proto. Tanpa trust proxy di sini,
+        // Laravel mengira semua request datang HTTP → URL "back()" dan arah
+        // redirect kembali jadi http:// (memicu lompatan 308).
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

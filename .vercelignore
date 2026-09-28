@@ -2,3 +2,7 @@
 /node_modules
 /storage/framework
 .env
+.env.backup
+.env.local
+.env.production
+.env.production.local
