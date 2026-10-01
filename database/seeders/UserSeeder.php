@@ -16,17 +16,20 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Admin SIGAP', 'email' => 'admin@sigap.test',
             'password' => Hash::make('password'), 'role' => 'admin',
+            'email_verified_at' => now(),
         ]);
 
         User::create([
             'name' => 'Agent IT', 'email' => 'agent@sigap.test',
             'password' => Hash::make('password'), 'role' => 'agent',
             'departemen_id' => $itSupport?->id,
+            'email_verified_at' => now(),
         ]);
 
         User::create([
             'name' => 'Pengguna Umum', 'email' => 'user@sigap.test',
             'password' => Hash::make('password'), 'role' => 'user',
+            'email_verified_at' => now(),
         ]);
     }
 }

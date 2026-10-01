@@ -123,6 +123,27 @@
         @apply sigap-btn sigap-btn--primary w-full mt-1;
     }
 
+    /* ============ DEMO LOGIN ============ */
+    .sigap-form__divider {
+        @apply flex items-center gap-3 text-xs font-semibold uppercase tracking-wider text-slate-500 my-1;
+    }
+    .sigap-form__divider::before,
+    .sigap-form__divider::after {
+        content: '';
+        @apply h-px flex-1 bg-slate-200;
+    }
+    .sigap-demo { @apply flex flex-col gap-4; }
+    .sigap-demo__hint { @apply text-center text-sm font-medium text-slate-600; }
+    .sigap-demo__grid { @apply flex flex-col gap-2; }
+    .sigap-demo__btn {
+        @apply sigap-btn sigap-btn--secondary w-full h-11 justify-start;
+    }
+    .sigap-demo__icon {
+        @apply flex items-center justify-center w-7 h-7 rounded-md
+               text-sigap-600 bg-sigap-50 border border-sigap-100 shrink-0;
+    }
+    .sigap-demo__label { @apply font-medium text-slate-700; }
+
     /* ============ ALERTS ============ */
     .sigap-alert {
         @apply mx-auto mb-4 max-w-3xl rounded-lg px-4 py-3 text-sm font-medium
