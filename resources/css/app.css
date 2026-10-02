@@ -271,7 +271,7 @@
     .sigap-hero__title-accent { @apply text-sigap-600; }
     .sigap-hero__desc { @apply mt-5 text-slate-600 text-base md:text-lg max-w-xl leading-relaxed; }
     .sigap-hero__actions { @apply mt-8 flex items-center gap-3 flex-wrap; }
-    .sigap-hero__trust { @apply grid grid-cols-3 gap-6 mt-10 pt-8 border-t border-slate-200 max-w-xl; }
+    .sigap-hero__trust { @apply hidden md:grid grid-cols-3 gap-6 mt-10 pt-8 border-t border-slate-200 max-w-xl; }
     .sigap-hero__trust-item { @apply flex flex-col gap-0.5; }
     .sigap-hero__trust-value { @apply text-xl md:text-2xl font-extrabold text-slate-900 tracking-tight; }
     .sigap-hero__trust-label { @apply text-xs text-slate-500 font-medium; }
