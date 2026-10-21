@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Departemen;
 use App\Models\Kategori;
+use App\Models\RegisteredEmail;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,7 +18,7 @@ class TicketCreationTest extends TestCase
 
     private Kategori $kategori;
 
-    private User $terdaftar;
+    private RegisteredEmail $terdaftar;
 
     protected function setUp(): void
     {
@@ -34,9 +35,9 @@ class TicketCreationTest extends TestCase
             'default_sla_jam' => 24,
         ]);
 
-        $this->terdaftar = User::factory()->create([
-            'role' => 'user',
+        $this->terdaftar = RegisteredEmail::create([
             'email' => 'pengunjung@mail.com',
+            'nama' => 'Pengunjung Uji',
         ]);
     }
 
@@ -101,7 +102,6 @@ class TicketCreationTest extends TestCase
     public function test_guest_ditolak_saat_email_terdaftar_tapi_nonaktif(): void
     {
         $this->terdaftar->update(['is_active' => false]);
-
         $response = $this->post('/lapor', [
             'nama_guest' => 'Pengunjung',
             'kontak_guest' => 'pengunjung@mail.com',

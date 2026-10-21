@@ -25,9 +25,9 @@ class StoreGuestTicketRequest extends FormRequest
                 'lowercase',
                 'email',
                 'max:100',
-                // Hanya email yang sudah terdaftar sebagai pengguna aktif
-                // (anggota perusahaan) yang boleh membuat laporan guest.
-                Rule::exists('users', 'email')->where(fn ($q) => $q->where('is_active', true)),
+                // Hanya email yang sudah terdaftar di daftar email perusahaan
+                // (master data) yang boleh membuat laporan guest.
+                Rule::exists('registered_emails', 'email')->where(fn ($q) => $q->where('is_active', true)),
             ],
             'departemen_id' => ['required', 'exists:departemens,id'],
             'kategori_id' => ['required', 'exists:kategoris,id'],

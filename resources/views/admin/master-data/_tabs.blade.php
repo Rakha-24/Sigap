@@ -11,4 +11,8 @@
        class="sigap-tabs__item {{ request()->routeIs('admin.master-data.sla') ? 'sigap-tabs__item--active' : '' }}">
         SLA & Prioritas
     </a>
+    <a href="{{ route('admin.master-data.email.index') }}"
+       class="sigap-tabs__item {{ request()->routeIs('admin.master-data.email.*') ? 'sigap-tabs__item--active' : '' }}">
+        Email Terdaftar
+    </a>
 </div>

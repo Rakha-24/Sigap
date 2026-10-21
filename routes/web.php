@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\MasterDataController;
+use App\Http\Controllers\Admin\RegisteredEmailController;
 use App\Http\Controllers\Admin\TicketAdminController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Agent\QueueController;
@@ -89,6 +90,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->names('master-data.kategori');
         Route::get('master-data/sla', [KategoriController::class, 'slaOverview'])
             ->name('master-data.sla');
+
+        Route::resource('master-data/email', RegisteredEmailController::class)
+            ->except(['show'])
+            ->names('master-data.email')
+            ->parameters(['email' => 'registered_email']);
 
         Route::resource('users', UserManagementController::class)
             ->except(['show', 'destroy'])
