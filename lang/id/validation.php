@@ -188,7 +188,7 @@ return [
         'kode' => 'Kode',
         'website' => 'Website',
         'nama_guest' => 'Nama',
-        'kontak_guest' => 'Kontak',
+        'kontak_guest' => 'Email Terdaftar',
         'terms' => 'Syarat dan Ketentuan',
         'role' => 'Peran',
         'default_sla_jam' => 'SLA Pengaturan Jam',
