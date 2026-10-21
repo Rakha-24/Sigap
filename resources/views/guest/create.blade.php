@@ -27,10 +27,8 @@
                 <div class="sigap-form__group">
                     <label for="kontak_guest" class="sigap-form__label">Email Terdaftar</label>
                     <input type="email" name="kontak_guest" id="kontak_guest" class="sigap-form__input"
-                           placeholder="nama@perusahaan.com" value="{{ old('kontak_guest') }}"
+                           placeholder="rakha24ls@gmail.com" value="{{ old('kontak_guest') }}"
                            autocomplete="email" required>
-                    <p class="sigap-form__hint">Email harus sudah terdaftar di sistem perusahaan Anda.
-                        Laporan dari email yang tidak terdaftar tidak akan diterima.</p>
                     @error('kontak_guest') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
                 </div>
             </div>
