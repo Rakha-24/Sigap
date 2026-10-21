@@ -27,7 +27,7 @@
                 <div class="sigap-form__group">
                     <label for="kontak_guest" class="sigap-form__label">Email Terdaftar</label>
                     <input type="email" name="kontak_guest" id="kontak_guest" class="sigap-form__input"
-                           placeholder="rakha24ls@gmail.com" value="{{ old('kontak_guest') }}"
+                           placeholder="nama@perusahaan.com" value="{{ old('kontak_guest') }}"
                            autocomplete="email" required>
                     @error('kontak_guest') <span role="alert" class="sigap-form__error">{{ $message }}</span> @enderror
                 </div>
