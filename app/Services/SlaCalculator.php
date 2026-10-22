@@ -7,16 +7,13 @@ use Carbon\Carbon;
 
 class SlaCalculator
 {
-    /** Faktor pengali SLA berdasarkan prioritas terhadap default_sla_jam kategori. */
-    private const FAKTOR_PRIORITAS = [
-        'tinggi' => 0.5,
-        'sedang' => 1.0,
-        'rendah' => 1.5,
-    ];
-
+    /**
+     * SLA ditetapkan per kategori dan berlaku sama untuk semua prioritas.
+     * Prioritas hanya memengaruhi urutan penanganan di antrean agent,
+     * tidak memotong atau memperpanjang batas waktu SLA.
+     */
     public function hitung(Kategori $kategori, string $prioritas): Carbon
     {
-        $jam = $kategori->default_sla_jam * (self::FAKTOR_PRIORITAS[$prioritas] ?? 1.0);
-        return now()->addHours((int) round($jam));
+        return now()->addHours((int) $kategori->default_sla_jam);
     }
 }
