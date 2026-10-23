@@ -2,11 +2,24 @@
 @section('title', "Tiket {$ticket->nomor_tiket} - SIGAP")
 
 @section('content')
+@php
+    // url()->previous() bisa menunjuk halaman ini sendiri setelah aksi yang
+    // redirect balik ke tiket (komentar, ubah status, reload). Jika begitu,
+    // arahkan ke daftar yang sesuai peran agar tombol Kembali tidak diam di tempat.
+    $kembaliUrl = url()->previous();
+    if (! $kembaliUrl || $kembaliUrl === url()->current()) {
+        $kembaliUrl = match (auth()->user()?->role) {
+            'agent' => route('agent.queue'),
+            'admin' => route('admin.tickets.index'),
+            default => route('tickets.index'),
+        };
+    }
+@endphp
 <section id="sigap-tickets-show" class="sigap-page">
     {{-- Header --}}
     <div class="sigap-page__header">
         <div class="flex items-center gap-3 flex-wrap">
-            <a href="{{ url()->previous() }}" class="sigap-icon-btn" title="Kembali">
+            <a href="{{ $kembaliUrl }}" class="sigap-icon-btn" title="Kembali">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12"/>
                     <polyline points="12 19 5 12 12 5"/>
